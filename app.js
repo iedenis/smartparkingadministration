@@ -6,10 +6,21 @@ var app = function () {
   app.use(express.static(__dirname + '/public'));
   app.set('views', __dirname + '/views');
   app.engine('html', require('ejs').renderFile);
+	
+	//routing
   app.get('/', function(req, res) {
     res.render('index.html');
   });
-
+    
+  app.get('/contacts', function(req, res) {
+    res.render('contacts.html');
+  });
+	app.get('/guide', function(req, res) {
+    res.render('guide.html');
+  });
+	app.get('/addnewdriver', function(req, res) {
+    res.render('addnewdriver.html');
+  });
   return app;
 }();
 
