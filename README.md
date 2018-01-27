@@ -9,5 +9,5 @@ With this tool the admin can:
  - Update the status of the cars 
 
 The client is running on heroku.com cloud platform as a service and uses:
-* [node.js] (https://nodejs.org) for the server side.
+* [node.js](https://nodejs.org) for the server side.
 * [mongodb](www.mongodb.com) as the database.
