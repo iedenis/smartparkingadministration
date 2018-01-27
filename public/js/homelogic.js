@@ -8,12 +8,15 @@ var resp = "";
 $(document).ready(function(){
 	
  $.ajax({
-     method: 'GET',
-	 url : "https://alpradministration.000webhostapp.com",
+     //method: 'GET',
+	 url : "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 	 
     }).done(function(data){
-	    //drivers = JSON.parse(data.responseText);
-	 console.log(data);
+		//console.log(data);
+		if(data!=null)
+		drivers = data;
+		else console.log("data is null");
+		
      });
 	  
 
@@ -22,7 +25,8 @@ $(document).ready(function(){
 
 
 $("#btn_findDriver").click(function(){
-	if(drivers != null){	
+	if(drivers != null){
+		console.log(drivers);	
 		$("#User_len").text(" "+drivers.length);
 		var result = (50*drivers.length)/100;
 		$("#div_prgs").css({'width': result});
@@ -51,7 +55,7 @@ $("#btn_findDriver").click(function(){
 function genarateTable(){
 
 	
-	for(var i = 1; i < drivers.length; i++ ){
+	for(var i = 0; i < drivers.length; i++ ){
 	
 	var row = table.insertRow();
 	var col = row.insertCell(0);
