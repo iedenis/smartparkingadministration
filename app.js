@@ -2,6 +2,25 @@ var app = function () {
   var http = require('http');
   var express = require('express');
   var app = express();
+  //connection to remote mongo database
+  var mongodb = require('mongodb').MongoClient;
+  var connectionUrl = 'mongodb://admin:admin@ds111258.mlab.com:11258/cars';
+
+
+  mongodb.connect(connectionUrl,function(err, db){
+    if(err){
+     // console.log(err);
+      throw err;
+    }
+    else{
+      var collection = db.collection('drivers');
+      collection.find({}).toArray(function(err,result){
+        if(err) throw err;
+        
+      });
+      db.close;
+    }
+  })
 
   app.use(express.static(__dirname + '/public'));
   app.set('views', __dirname + '/views');
