@@ -2,7 +2,7 @@ var btnAdd = document.getElementById("btn_add");
 var textBoxs = document.querySelectorAll("input");
 var driver;
 var isEmpty = true;
-var url = "https://alpradministration.000webhostapp.com/"
+//var url = "https://alpradministration.000webhostapp.com/"
 btnAdd.addEventListener("click", function(){
 			
 	isEmpty = checkFields();

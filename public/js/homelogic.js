@@ -22,11 +22,43 @@ $(document).ready(function(){
 
 });
 
+$("#add-driver").on("submit", function(e){
+	e.preventDefault();
+		var first_name = $('#first_name').val();
+		var last_name = $('#last_name').val();
+		var id = $('#id').val();
+		var p_num = $('#p_num').val();
+		if(first_name&&last_name&&id&&p_num){
+		$.ajax({
+			url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+			data: JSON.stringify({
+				"p_num": p_num,
+				"first_name":first_name,
+				"last_name":last_name,
+				"permission_status": "allowed",
+				"parking_status":"outside"
+			}),
+			type: "POST",
+			contentType: "application/json",
+			success: function(data){
+			location.reload(true);
+			},
+			error: function(xhr, status, err){
+				console.log(err);
+			}
+		})
+	}
+	else alert("Please fill the form correctly");
+	})
 
-
+/*$("#add-driver").submit(function(){
+	var wrongP_name=false;
+	if(wrongP_name)return alert("submitted");
+	else return alert("NOT submitted");
+})
+*/
 $("#btn_findDriver").click(function(){
 	if(drivers != null){
-		console.log(drivers);	
 		$("#User_len").text(" "+drivers.length);
 		var result = (50*drivers.length)/100;
 		$("#div_prgs").css({'width': result});

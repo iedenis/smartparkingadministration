@@ -105,35 +105,39 @@
                       </div>
 					 
 					 <div class="panel panel-default boreder-panel">
-                            <div class="panel-heading main-color">Search result</div>
+                            <div class="panel-heading main-color">Adding a new driver</div>
                                <div class="panel-body">
                                    <div class="container">
-									   
+																			<form id= "add-driver">
+
 								      <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon1">First Name</span>
-                                           <input type="text" class="form-control short_input" aria-describedby="basic-addon1" >
+                                           <input type="text" id="first_name" class="form-control short_input" aria-describedby="basic-addon1" >
                                        </div>
                                             
 									   <br>
 									  <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon1">Last Name</span>
-                                           <input type="text" class="form-control short_input" aria-describedby="basic-addon1">
+                                           <input type="text" id="last_name" class="form-control short_input" aria-describedby="basic-addon1">
                                        </div>
 									   <br>
 									   <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon1">Id</span>
-                                           <input type="text" class="form-control short_input" aria-describedby="basic-addon1">
+                                           <input type="text" id="id" class="form-control short_input" aria-describedby="basic-addon1">
                                        </div>
 									     <br>
 									   <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon1">Plate Number</span>
-                                           <input type="text" class="form-control short_input" aria-describedby="basic-addon1">
+                                           <input type="text" id="p_num" class="form-control short_input" aria-describedby="basic-addon1">
                                        </div>
-									   
+																			
 									   
 									   <div  class="div-size">
+												<button id="btn_add" form="add-driver"  class=" btn btn-success btn-loction2 btn-lg ">Add</button>
+
+											</form>
 										   <div class="container">
-									        <button id="btn_add" class=" btn btn-success btn-loction2 btn-lg ">Add</button>
+											
 										   </div>
 									   </div>
 									        
@@ -156,6 +160,6 @@
    
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	   <script src="js/bootstrap.min.js"></script>
-	  <script src="js/AddDriverLogic.js" ></script>
+	  <script src="js/homelogic.js" ></script>
   </body>
 </html>
