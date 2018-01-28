@@ -28,13 +28,14 @@ $("#add-driver").on("submit", function(e){
 		var last_name = $('#last_name').val();
 		var id = $('#id').val();
 		var p_num = $('#p_num').val();
-		if(first_name&&last_name&&id&&p_num){
+		if(first_name&&last_name&&id&&p_num&&id){
 		$.ajax({
 			url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 			data: JSON.stringify({
-				"p_num": p_num,
 				"first_name":first_name,
 				"last_name":last_name,
+				"id": id,
+				"p_num": p_num,
 				"permission_status": "allowed",
 				"parking_status":"outside"
 			}),
