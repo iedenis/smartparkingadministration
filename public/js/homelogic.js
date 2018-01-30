@@ -58,7 +58,7 @@ $("#add-driver").on("submit", function (e) {
 */
 
 //show all drivers from DB in the table
-$("#btn_findDriver").click(function () {
+$("#btn_showAllDrivers").click(function () {
 	if (drivers != null) {
 		$("#User_len").text(" " + drivers.length);
 		var result = (50 * drivers.length) / 100;
@@ -73,26 +73,75 @@ $("#btn_findDriver").click(function () {
 	}
 });
 
-$(document).ready(function(){
-	var addDriver= $("#addDriver");
 
-	$("#btn_addDriver").click(function(){
+$(document).ready(function () {
+	
+	var addDriver = $("#addDriver");
+
+	$("#btn_addDriver").click(function () {
 		addDriver.dialog('open');
 	})
 	addDriver.dialog({
 		title: "Add a new driver",
 		autoOpen: false,
 		modal: true,
-		buttons:{
-			'Add driver': function(){
-				
+		buttons: {
+			'Add driver': function () {
+				{
+					var first_name = $('#first_name').val();
+					var last_name = $('#last_name').val();
+					var id = $('#id').val();
+					var p_num = $('#plate_number').val();
+					if (first_name && last_name && id && p_num && id) {
+						$.ajax({
+							url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+							data: JSON.stringify({
+								"first_name": first_name,
+								"last_name": last_name,
+								"id": id,
+								"p_num": p_num,
+								"permission_status": "allowed",
+								"parking_status": "outside"
+							}),
+							type: "POST",
+							contentType: "application/json",
+							success: function (data) {
+								location.reload(true);
+							},
+							error: function (xhr, status, err) {
+								console.log(err);
+							}
+						})
+					} else alert("Please fill the form correctly");
+				}
 			},
-			'Close': function(){}	
+			'Cancel': function () {
+				addDriver.dialog('close');
+			}
 		}
 	})
 
 })
 
+
+
+
+/*$(document).ready(function(){
+	var driverSearch=$("#driverSearch");
+	$("#btn_search").click(function(){
+		driverSearch.dialog('open');
+	})
+	driverSearch.dialog({
+		title: "Search for a driver",
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			'Search': function(){},
+			'Cancel': driverSearch.dialog('close')
+		}
+	})
+})
+*/
 function format(str) {
 	var i = 0;
 	var res = "";

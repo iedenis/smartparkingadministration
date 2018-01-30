@@ -16,7 +16,7 @@
 		<form id="addDriver" action="#">
 
 			<label for="first_name">First Name</label>
-			<input type="text" id="last_name" >
+			<input type="text" id="first_name" >
 
 			<label for="last_name">Last Name</label>
 			<input type="text" id="last_name">
@@ -26,9 +26,28 @@
 
 			<label for="plate_number">Plate number</label>
 			<input type="text" id="plate_number">
+		</form>
+	</div>
+	<!--
+	<div id= "driverSearch">
+			<form id="driverSearch" action="#">
+	
+				<label for="f_name">First Name</label>
+				<input type="text" id="f_name" >
+	
+				<label for="l_name">Last Name</label>
+				<input type="text" id="l_name">
+	
+				<label for="_id">ID</label>
+				<input type="text" id="_id">
+	
+				<label for="pl_num">Plate number</label>
+				<input type="text" id="pl_num">
+			</form>
+		</div>
+
 			<!--<button type="submit">Find</button>-->
-	</form>
-</div>
+	
 	<header id="header">
 		<div class="container">
 			<div class="row">
@@ -95,9 +114,10 @@
 
 							<div class="col-md-3">
 								<div class=" cotnainer">
-									<div class="cotnainer btn-loction">
-										<button id="btn_findDriver" class="btn btn-lg ">Find Driver</button>
-									</div>
+										<button id="btn_search" class="btn btn-lg btn-block">Search for a driver</button>
+										<button id="btn_showAllDrivers" class="btn btn-lg btn-block" style="margin-top: 25%">Show all drivers</button>
+
+									
 								</div>
 							</div>
 
@@ -147,6 +167,8 @@
 		<div class="container">
 			<p> Admin copyright, &copy; 2018 </p>
 		</div>
+
+	
 	</footer>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
