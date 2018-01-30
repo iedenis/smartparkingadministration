@@ -1,7 +1,4 @@
 var drivers;
-var table = document.getElementById("tbl_drivers");
-var resp = "";
-
 // loading data from DB
 $(document).ready(function () {
 
@@ -69,7 +66,8 @@ $("#btn_showAllDrivers").click(function () {
 		$("#prgs_space").css({
 			'color': 'black'
 		});
-		genarateTable();
+	   fillTable(drivers);
+	 
 	}
 });
 
@@ -123,8 +121,30 @@ $(document).ready(function () {
 
 })
 
+/*--- fill the table with all drivers ---*/
+function fillTable(myArr){
+	var htmlCode = '';
+	$.each(myArr,function(key,value){
+		
+		htmlCode += '<tr>';
+		htmlCode += '<td>'+value.first_name+'</td>';
+		htmlCode += '<td>'+value.last_name+'</td>';
+		htmlCode += '<td>'+value.id+'</td>';
+		htmlCode += '<td>'+value.p_num+'</td>';
+		htmlCode += '</tr> ';	
+	});
+     $("#tbl_drivers tbody").append(htmlCode);
+}
 
-
+$('#tbl_drivers tbody').click(function(){
+	var corrow = $(this).closest('tr');
+	var col0 = corrow.find('td:eq(0)').text();
+	var col1 = corrow.find('td:eq(1)').text();
+	var col2 = corrow.find('td:eq(2)').text();
+	var col3 = corrow.find('td:eq(3)').text();
+	var result = col0+"\n" +col1+"\n"+col2+"\n"+col3+"\n";
+	alert(result);
+})
 
 /*$(document).ready(function(){
 	var driverSearch=$("#driverSearch");
@@ -142,34 +162,5 @@ $(document).ready(function () {
 	})
 })
 */
-function format(str) {
-	var i = 0;
-	var res = "";
-	while (str[i] != ']') {
-		res += str[i];
-		i++;
-	}
-	res += ']'
-	return JSON.parse(res);
-}
 
 
-
-function genarateTable() {
-
-
-	for (var i = 0; i < drivers.length; i++) {
-
-		var row = table.insertRow();
-		var col = row.insertCell(0);
-		var col1 = row.insertCell(1);
-		var col2 = row.insertCell(2);
-		var col3 = row.insertCell(3);
-		var d = drivers[i];
-
-		col.innerHTML = d["first_name"];
-		col1.innerHTML = d["last_name"];
-		col2.innerHTML = d["id"];
-		col3.innerHTML = d["p_num"];
-	}
-}
