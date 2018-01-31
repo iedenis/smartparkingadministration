@@ -177,44 +177,42 @@ function showEditDialog(f_name, l_name, id, p_num) {
 	var plate_number= $("#plate_number").val(p_num);
 	//return [first_name, last_name, id, plate_number];
 }
-/*$('#tbl_drivers tbody').click(function(){
-	var corrow = $(this).closest('tr');
-	var col0 = corrow.find('td:eq(0)').text();
-	var col1 = corrow.find('td:eq(1)').text();
-	var col2 = corrow.find('td:eq(2)').text();
-	var col3 = corrow.find('td:eq(3)').text();
-	var result = col0+"\n" +col1+"\n"+col2+"\n"+col3+"\n";
-	alert(result);
-})
-*/
-//not in use
-$("#tbl_drivers td").click(function () {
-	console.log("clicked");
-	var table = $('#tbl_drivers').find('tbody').find('tr');
-	//console.log(cell);
-	var f_name = $(this).find('td:eq(0)').html();
-	var l_name = $(this).find('td:eq(1)').html();
-	var id = $(this).find('td:eq(2)').html();
-	var p_num = $(this).find('td:eq(3)').html();
-	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
-	//console.log(result);
-	//console.log(table);
-})
 
 
-/*$(document).ready(function(){
-	var driverSearch=$("#driverSearch");
-	$("#btn_search").click(function(){
-		driverSearch.dialog('open');
-	})
-	driverSearch.dialog({
-		title: "Search for a driver",
-		autoOpen: false,
-		modal: true,
-		buttons: {
-			'Search': function(){},
-			'Cancel': driverSearch.dialog('close')
+$("#btn_search").on('click',function(){
+	
+	var url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA/?"; 
+	var first_name = $('#intp_firstName').val();
+	var last_name = $('#inpt_lastName').val();
+	var id = $('#inpt_id').val();
+	var p_num = $('#inpt_plateNumber').val();
+	
+	 if(first_name)
+		url += "firs_name = " + first_name;
+	
+	 if(last_name)
+		url += "last_name = " + last_name;
+	
+	 if(id)
+		url += "id = " + id;
+	
+	 if(p_num)
+		url += "plate_num = " + p_num;
+	
+	alert(url);
+    
+	$.ajax({
+		//method: 'GET + Parametars for search',
+		url: url,
+
+	}).done(function (data) {
+		//console.log(data);
+		if (data != null){
+			drivers = data;
+		 fillTable(drivers);
 		}
-	})
-})
-*/
+		else console.log("data is null");
+
+	});
+	  	
+});

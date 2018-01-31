@@ -231,7 +231,7 @@ a:hover {
 .Table-size{
 	
 	
-	width: 800px;
+	width: 70%;
 		
 }
 
@@ -273,3 +273,5 @@ a:hover {
 #addDriver, #editDriver input{
   display: block;
 }
+
+
