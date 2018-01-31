@@ -1,4 +1,6 @@
 var drivers;
+var editDriver = $('#editDriver');
+var beforeEdit;
 // loading data from DB
 $(document).ready(function () {
 
@@ -66,19 +68,37 @@ $("#btn_showAllDrivers").click(function () {
 		$("#prgs_space").css({
 			'color': 'black'
 		});
-	   fillTable(drivers);
-	 
+		fillTable(drivers);
+
 	}
 });
 
 
 $(document).ready(function () {
-	
 	var addDriver = $("#addDriver");
+
+	editDriver.dialog({
+		title: "Edit Driver",
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			"Edit driver": function () {
+				console.log(beforeEdit.val);
+				if($("#first_name").val()==beforeEdit.val())console.log("not edited");
+				else console.log("edited");
+			},
+			"Cancel": function () {
+				editDriver.dialog('close');
+			}
+		}
+	})
 
 	$("#btn_addDriver").click(function () {
 		addDriver.dialog('open');
 	})
+
+
+
 	addDriver.dialog({
 		title: "Add a new driver",
 		autoOpen: false,
@@ -122,21 +142,42 @@ $(document).ready(function () {
 })
 
 /*--- fill the table with all drivers ---*/
-function fillTable(myArr){
+function fillTable(myArr) {
 	var htmlCode = '';
-	$.each(myArr,function(key,value){
-		
-		htmlCode += '<tr>';
-		htmlCode += '<td>'+value.first_name+'</td>';
-		htmlCode += '<td>'+value.last_name+'</td>';
-		htmlCode += '<td>'+value.id+'</td>';
-		htmlCode += '<td>'+value.p_num+'</td>';
-		htmlCode += '</tr> ';	
+	$.each(myArr, function (key, value) {
+
+		htmlCode += '<tr onclick="showName(this)">';
+		htmlCode += '<td>' + value.first_name + '</td>';
+		htmlCode += '<td>' + value.last_name + '</td>';
+		htmlCode += '<td>' + value.id + '</td>';
+		htmlCode += '<td>' + value.p_num + '</td>';
+		htmlCode += '</tr> ';
 	});
-     $("#tbl_drivers tbody").append(htmlCode);
+	$("#tbl_drivers tbody").append(htmlCode);
 }
 
-$('#tbl_drivers tbody').click(function(){
+//the function will ba called after clicking on a cell
+function showName(tr) {
+	var table = $('#tbl_drivers tbody tr td');
+	var f_name = $(tr).find('td:eq(0)').html();
+	var l_name = $(tr).find('td:eq(1)').html();
+	var id = $(tr).find('td:eq(2)').html();
+	var p_num = $(tr).find('td:eq(3)').html();
+	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
+	beforeEdit= $("#first_name").val(f_name);
+	showEditDialog(f_name, l_name, id, p_num);
+	
+}
+
+function showEditDialog(f_name, l_name, id, p_num) {
+	editDriver.dialog('open');
+	var first_name=$("#first_name").val(f_name);
+	var last_name=$("#last_name").val(l_name);
+	var id=$("#id").val(id);
+	var plate_number= $("#plate_number").val(p_num);
+	//return [first_name, last_name, id, plate_number];
+}
+/*$('#tbl_drivers tbody').click(function(){
 	var corrow = $(this).closest('tr');
 	var col0 = corrow.find('td:eq(0)').text();
 	var col1 = corrow.find('td:eq(1)').text();
@@ -145,6 +186,21 @@ $('#tbl_drivers tbody').click(function(){
 	var result = col0+"\n" +col1+"\n"+col2+"\n"+col3+"\n";
 	alert(result);
 })
+*/
+//not in use
+$("#tbl_drivers td").click(function () {
+	console.log("clicked");
+	var table = $('#tbl_drivers').find('tbody').find('tr');
+	//console.log(cell);
+	var f_name = $(this).find('td:eq(0)').html();
+	var l_name = $(this).find('td:eq(1)').html();
+	var id = $(this).find('td:eq(2)').html();
+	var p_num = $(this).find('td:eq(3)').html();
+	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
+	//console.log(result);
+	//console.log(table);
+})
+
 
 /*$(document).ready(function(){
 	var driverSearch=$("#driverSearch");
@@ -162,5 +218,3 @@ $('#tbl_drivers tbody').click(function(){
 	})
 })
 */
-
-

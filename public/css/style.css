@@ -270,6 +270,6 @@ a:hover {
   #section2 {width: 500px; height: 500px; color: #fff; background-color: #673ab7;}
   #section3 {width: 500px; height: 500px; color: #fff; background-color: #ff9800;}
 
-#addDriver input{
+#addDriver, #editDriver input{
   display: block;
 }
