@@ -10,8 +10,10 @@ $(document).ready(function () {
 
 	}).done(function (data) {
 		//console.log(data);
-		if (data != null)
+		if (data != null){
 			drivers = data;
+			//console.log(drivers);
+		}
 		else error("there is a problem to connect to database");
 
 	});
@@ -146,15 +148,16 @@ $(document).ready(function () {
 
 /*--- fill the table with all drivers ---*/
 function fillTable(myArr) {
+	
 	var htmlCode = '';
 	$.each(myArr, function (key, value) {
-
-		htmlCode += '<tr onclick="showName(this)">';
+		htmlCode += '<tr "driver_id"=value._id onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';
 		htmlCode += '<td>' + value.id + '</td>';
 		htmlCode += '<td>' + value.p_num + '</td>';
 		htmlCode += '</tr> ';
+		//console.log($(this).driver_id);
 	});
 	$("#tbl_drivers tbody").append(htmlCode);
 }
@@ -166,6 +169,7 @@ function showName(tr) {
 	var l_name = $(tr).find('td:eq(1)').html();
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
+	//console.log($(tr).driver-id.val());
 	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
 	beforeEdit = $("#first_name").val(f_name);
 	showEditDialog(f_name, l_name, id, p_num);
@@ -174,19 +178,13 @@ function showName(tr) {
 //Deleting the driver
 function deleteDriver(first_name, last_name, id, p_num) {
 	var params;
-
+/*
 	$.ajax({
-		url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
-		data: JSON.stringify({
-			"first_name": first_name,
-			"last_name": last_name,
-			"id": id,
-			"p_num": p_num,
-			"permission_status": "allowed",
-			"parking_status": "outside"
-		}),
+		
+		url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers/"+params+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+		async: true,
+		timeout: 300000,
 		type: "DELETE",
-		contentType: "application/json",
 		success: function (data) {
 			location.reload(true);
 		},
@@ -194,7 +192,7 @@ function deleteDriver(first_name, last_name, id, p_num) {
 			console.log(err);
 		}
 	})
-
+*/
 }
 
 function showEditDialog(f_name, l_name, id, p_num) {
@@ -214,7 +212,6 @@ $("#btn_search").on('click', function () {
 	var last_name = $('#inpt_lastName').val();
 	var id = $('#inpt_id').val();
 	var p_num = $('#inpt_plateNumber').val();
-
 	if (first_name)
 		url += "firs_name = " + first_name;
 

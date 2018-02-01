@@ -1,13 +1,12 @@
 var app = function () {
-
+  var cors = require('cors');
   var http = require('http');
   var express = require('express');
   var app = express();
-  var cors = require('cors');
   app.use(cors());
   app.options('*',cors);
   //connection to remote mongo database
-  var mongodb = require('mongodb').MongoClient;
+  /*var mongodb = require('mongodb').MongoClient;
   var connectionUrl = 'mongodb://admin:admin@ds111258.mlab.com:11258/cars';
   
 
@@ -24,7 +23,7 @@ var app = function () {
       db.close;
     }
   })
-  
+  */
   app.use(express.static(__dirname + '/public'));
 
 
