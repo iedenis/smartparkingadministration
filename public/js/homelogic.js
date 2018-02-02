@@ -55,7 +55,7 @@ $(document).ready(function () {
 		buttons: {
 			"Edit driver": function () {
 				//console.log(beforeEdit.val);
-				if ($("#first_name").val() == beforeEdit.val())
+				if ($("#f_name").val() == beforeEdit.val())
 					console.log("not edited");
 				else
 					console.log("edited");
@@ -170,7 +170,8 @@ function showName(tr) {
 	var db_id = $(tr).attr("data-id");
 	//console.log($(tr).attr("data-id")); works
 	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
-	beforeEdit = $("#first_name").val(f_name);
+	beforeEdit = $("#f_name").val(f_name);
+	console.log(beforeEdit);
 	showEditDialog(f_name, l_name, id, p_num, db_id);
 }
 
