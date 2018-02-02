@@ -22,8 +22,8 @@ body{
 
 /* button*/
 .btn-loction {
-	margin-top: 40px;
-	padding-top: 45px;
+	margin-top: 70px;
+	
 	
 }
 
@@ -265,6 +265,9 @@ a:hover {
 	margin-right: 350px;
 	
 }
+.container-notBootstrap{
+	width: 100%;
+}
 
   #section1 {width: 500px; height: 500px; color: #fff; background-color: #1E88E5;}
   #section2 {width: 500px; height: 500px; color: #fff; background-color: #673ab7;}
@@ -277,4 +280,7 @@ a:hover {
   display: block;
 }
 
-
+.size-inpt{
+	
+	width: 30% !important;
+}
