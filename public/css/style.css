@@ -273,5 +273,8 @@ a:hover {
 #addDriver, #editDriver input{
   display: block;
 }
+#addDriver input{
+  display: block;
+}
 
 

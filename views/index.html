@@ -51,17 +51,23 @@
 			<div id= "editDriverDiv" data-id="">
 				<form id="editDriver" data-id="" action="#">
 		
-					<label for="first_name">First Name</label>
-					<input type="text" id="first_name" >
+					<label for="f_name">First Name</label>
+					<input type="text" id="f_name" >
 		
-					<label for="last_name">Last Name</label>
-					<input type="text" id="last_name">
+					<label for="l_name">Last Name</label>
+					<input type="text" id="l_name">
 		
-					<label for="id">ID</label>
-					<input type="text" id="id">
+					<label for="driver_id">ID</label>
+					<input type="text" id="driver_id">
 		
-					<label for="plate_number">Plate number</label>
-					<input type="text" id="plate_number">
+					<label for="p_number">Plate number</label>
+					<input type="text" id="p_number">
+					<label for="permission_status">Permission status</label><br>
+					<select name="permission_status">
+						<option value="allowed">allowed</option>
+						<option value="forbidden">forbidden	</option>
+						
+					</select>
 				</form>
 			</div>
 	<header id="header">
@@ -70,7 +76,7 @@
 				<div class="col-md-10">
 					<h1>
 						<span class="glyphicon glyphicon-cog"></span> Admin area
-						<small> manage youre site</small>
+						<!--<small> manage youre site</small> -->
 					</h1>
 				</div>
 			</div>
