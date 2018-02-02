@@ -71,7 +71,6 @@ $(document).ready(function () {
 					success: function (data) {
 						editDriver.dialog('close');
 						removeFromTable(database_id);
-						//location.reload(true);
 					},
 					error: function (xhr, status, err) {
 						console.log(err);
@@ -119,6 +118,9 @@ $(document).ready(function(){
 							type: "POST",
 							contentType: "application/json",
 							success: function (data) {
+								
+								//$('#tbl_drivers tr:last').after('<tr>...</tr><tr>...</tr>');
+
 								location.reload(true);
 							},
 							error: function (xhr, status, err) {
@@ -172,14 +174,6 @@ function showName(tr) {
 	showEditDialog(f_name, l_name, id, p_num, db_id);
 }
 
-//Deleting the driver
-function deleteDriver() {
-	//console.log($(this).db_id);
-
-
-
-}
-
 function showEditDialog(f_name, l_name, id, p_num, db_id) {
 	editDriver.dialog('open');
 	var first_name = $("#f_name").val(f_name);
@@ -202,7 +196,7 @@ $("#btn_search").on('click', function () {
 	var id = $('#inpt_id').val();
 	var p_num = $('#inpt_plateNumber').val();
 	if (first_name)
-		url += "firs_name = " + first_name;
+		url += "first_name = " + first_name;
 
 	if (last_name)
 		url += "last_name = " + last_name;
