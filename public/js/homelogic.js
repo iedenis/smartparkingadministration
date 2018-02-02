@@ -23,7 +23,7 @@ $(document).ready(function () {
 });
 
 // adding a new driver from /addnewdriver page
-$("#add-driver").on("submit", function (e) {
+$("#add_driver").on("submit", function (e) {
 	e.preventDefault();
 	var first_name = $('#first_name').val();
 	var last_name = $('#last_name').val();
@@ -197,6 +197,7 @@ function showName(tr) {
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
+	console.log(table);
 	//console.log($(tr).attr("data-id")); works
 	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
 	beforeEdit = $("#first_name").val(f_name);
