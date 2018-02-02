@@ -1,12 +1,12 @@
 var drivers;
 var editDriver = $('#editDriver');
 var beforeEdit;
+var db_url="https://api.mongolab.com/api/1/databases/cars/collections/drivers";
 // loading data from DB
 $(document).ready(function () {
-
 	$.ajax({
 		//method: 'GET',
-		url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+		url: db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 
 	}).done(function (data) {
 		//console.log(data);
@@ -29,7 +29,7 @@ $("#add-driver").on("submit", function (e) {
 	var p_num = $('#p_num').val();
 	if (first_name && last_name && id && p_num && id) {
 		$.ajax({
-			url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+			url: db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 			data: JSON.stringify({
 				"first_name": first_name,
 				"last_name": last_name,
@@ -59,6 +59,7 @@ $("#add-driver").on("submit", function (e) {
 
 //show all drivers from DB in the table
 $("#btn_showAllDrivers").click(function () {
+
 	if (drivers != null) {
 		$("#User_len").text(" " + drivers.length);
 		var result = (50 * drivers.length) / 100;
@@ -97,13 +98,14 @@ $(document).ready(function () {
 				var database_id=($('#editDriver').data('id')); 
 				$.ajax({
 			
-					url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers/"+database_id+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+					url: db_url+"/"+database_id+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 					async: true,
 					timeout: 300000,
 					type: "DELETE",
 					success: function (data) {
-						//console.log("deleted");
-						location.reload(true);
+						editDriver.dialog('close');
+						removeFromTable(database_id);
+						//location.reload(true);
 					},
 					error: function (xhr, status, err) {
 						console.log(err);
@@ -135,7 +137,7 @@ $(document).ready(function () {
 					var p_num = $('#plate_number').val();
 					if (first_name && last_name && id && p_num && id) {
 						$.ajax({
-							url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+							url: db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 							data: JSON.stringify({
 								"first_name": first_name,
 								"last_name": last_name,
@@ -164,12 +166,19 @@ $(document).ready(function () {
 
 })
 
+function removeFromTable(database_id){
+	$("#tbl_drivers tr").each(function(){
+		if(database_id==$(this).attr("data-id"))
+		$(this).remove();
+	})
+}
+
 /*--- fill the table with all drivers ---*/
 function fillTable(myArr) {
 
 	var htmlCode = '';
 	$.each(myArr, function (key, value) {
-		htmlCode += '<tr data-id="' + value._id.$oid + '" onclick="showName(this)">';
+		htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';
 		htmlCode += '<td>' + value.id + '</td>';
@@ -217,7 +226,7 @@ function showEditDialog(f_name, l_name, id, p_num,db_id) {
 
 $("#btn_search").on('click', function () {
 
-	var url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA/?";
+	var url = db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA/?";
 	var first_name = $('#intp_firstName').val();
 	var last_name = $('#inpt_lastName').val();
 	var id = $('#inpt_id').val();
