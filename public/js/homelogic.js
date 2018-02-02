@@ -15,6 +15,14 @@ $(document).ready(function () {
 		//console.log(data);
 		if (data != null) {
 			drivers = data;
+			   var result = (50 * drivers.length) / 100;
+		         $("#div_prgs").css({
+			       'width': result
+		          });
+	    	       $("#prgs_space").text("" + result + "%");
+		             $("#prgs_space").css({
+			          'color': 'black'
+		                });
 			//console.log(drivers);
 		} else error("there is a problem to connect to database");
 
@@ -29,14 +37,7 @@ $("#btn_showAllDrivers").click(function () {
 
 	if (drivers != null) {
 		$("#User_len").text(" " + drivers.length);
-		var result = (50 * drivers.length) / 100;
-		$("#div_prgs").css({
-			'width': result
-		});
-		$("#prgs_space").text("" + result + "%");
-		$("#prgs_space").css({
-			'color': 'black'
-		});
+		
 		fillTable(drivers);
 
 	}
@@ -187,39 +188,11 @@ function showEditDialog(f_name, l_name, id, p_num, db_id) {
 	//return [first_name, last_name, id, plate_number];
 }
 
-
-$("#btn_search").on('click', function () {
-
-	var url = db_url + api_key;
-	var first_name = $('#intp_firstName').val();
-	var last_name = $('#inpt_lastName').val();
-	var id = $('#inpt_id').val();
-	var p_num = $('#inpt_plateNumber').val();
-	if (first_name)
-		url += "first_name = " + first_name;
-
-	if (last_name)
-		url += "last_name = " + last_name;
-
-	if (id)
-		url += "id = " + id;
-
-	if (p_num)
-		url += "plate_num = " + p_num;
-
-	alert(url);
-
-	$.ajax({
-		//method: 'GET + Parametars for search',
-		url: url,
-
-	}).done(function (data) {
-		//console.log(data);
-		if (data != null) {
-			drivers = data;
-			fillTable(drivers);
-		} else console.log("data is null");
-
-	});
-
+//Filterable Table with search paramethers.
+$("#myInput").on("keyup",function(){
+	var value = $(this).val().toLowerCase();
+	  $('#tbl_drivers tbody tr').filter(function(){
+		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) 
+	  });
 });
+

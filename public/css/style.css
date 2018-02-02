@@ -22,8 +22,8 @@ body{
 
 /* button*/
 .btn-loction {
-	margin-top: 40px;
-	padding-top: 45px;
+	margin-top: 70px;
+	
 	
 }
 
@@ -277,4 +277,7 @@ a:hover {
   display: block;
 }
 
-
+.size-inpt{
+	
+	width: 30% !important;
+}
