@@ -119,12 +119,16 @@ $(document).ready(function () {
 		}
 	})
 
-	$("#btn_addDriver").click(function () {
-		addDriver.dialog('open');
-	})
+	
+
+})
+
+$("#btn_addDriver").click(function () {
+	addDriver.dialog('open');
+})
 
 
-
+$(document).ready(function(){
 	addDriver.dialog({
 		title: "Add a new driver",
 		autoOpen: false,
@@ -132,10 +136,10 @@ $(document).ready(function () {
 		buttons: {
 			'Add driver': function () {
 				{
-					var first_name = $('#first_name').val();
-					var last_name = $('#last_name').val();
-					var id = $('#id').val();
-					var p_num = $('#plate_number').val();
+					var first_name = $('#f_name').val();
+					var last_name = $('#l_name').val();
+					var id = $('#driver_id').val();
+					var p_num = $('#p_number').val();
 					if (first_name && last_name && id && p_num && id) {
 						$.ajax({
 							url: db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
@@ -164,8 +168,8 @@ $(document).ready(function () {
 			}
 		}
 	})
-
 })
+
 
 function removeFromTable(database_id) {
 	$("#tbl_drivers tr").each(function () {
