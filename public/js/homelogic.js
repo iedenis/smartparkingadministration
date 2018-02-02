@@ -1,12 +1,14 @@
 var drivers;
 var editDriver = $('#editDriver');
+var addDriver = $("#addDriver");
+
 var beforeEdit;
-var db_url="https://api.mongolab.com/api/1/databases/cars/collections/drivers";
+var db_url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers";
 // loading data from DB
 $(document).ready(function () {
 	$.ajax({
 		//method: 'GET',
-		url: db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+		url: db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 
 	}).done(function (data) {
 		//console.log(data);
@@ -29,7 +31,7 @@ $("#add-driver").on("submit", function (e) {
 	var p_num = $('#p_num').val();
 	if (first_name && last_name && id && p_num && id) {
 		$.ajax({
-			url: db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+			url: db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 			data: JSON.stringify({
 				"first_name": first_name,
 				"last_name": last_name,
@@ -77,7 +79,6 @@ $("#btn_showAllDrivers").click(function () {
 
 
 $(document).ready(function () {
-	var addDriver = $("#addDriver");
 
 	editDriver.dialog({
 		title: "Edit Driver",
@@ -94,11 +95,11 @@ $(document).ready(function () {
 				else
 					console.log("edited");
 			},
-			"Delete driver": function(){
-				var database_id=($('#editDriver').data('id')); 
+			"Delete driver": function () {
+				var database_id = ($('#editDriver').data('id'));
 				$.ajax({
-			
-					url: db_url+"/"+database_id+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+
+					url: db_url + "/" + database_id + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 					async: true,
 					timeout: 300000,
 					type: "DELETE",
@@ -111,7 +112,7 @@ $(document).ready(function () {
 						console.log(err);
 					}
 				})
-			}, 
+			},
 			"Cancel": function () {
 				editDriver.dialog('close');
 			}
@@ -137,7 +138,7 @@ $(document).ready(function () {
 					var p_num = $('#plate_number').val();
 					if (first_name && last_name && id && p_num && id) {
 						$.ajax({
-							url: db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+							url: db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
 							data: JSON.stringify({
 								"first_name": first_name,
 								"last_name": last_name,
@@ -166,10 +167,10 @@ $(document).ready(function () {
 
 })
 
-function removeFromTable(database_id){
-	$("#tbl_drivers tr").each(function(){
-		if(database_id==$(this).attr("data-id"))
-		$(this).remove();
+function removeFromTable(database_id) {
+	$("#tbl_drivers tr").each(function () {
+		if (database_id == $(this).attr("data-id"))
+			$(this).remove();
 	})
 }
 
@@ -195,7 +196,7 @@ function showName(tr) {
 	var l_name = $(tr).find('td:eq(1)').html();
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
-	var db_id=$(tr).attr("data-id");
+	var db_id = $(tr).attr("data-id");
 	//console.log($(tr).attr("data-id")); works
 	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
 	beforeEdit = $("#first_name").val(f_name);
@@ -205,28 +206,28 @@ function showName(tr) {
 //Deleting the driver
 function deleteDriver() {
 	//console.log($(this).db_id);
-	
-		
-	
+
+
+
 }
 
-function showEditDialog(f_name, l_name, id, p_num,db_id) {
+function showEditDialog(f_name, l_name, id, p_num, db_id) {
 	editDriver.dialog('open');
 	var first_name = $("#first_name").val(f_name);
 	var last_name = $("#last_name").val(l_name);
 	var id = $("#id").val(id);
 	var plate_number = $("#plate_number").val(p_num);
 
-	var database_id=$("#editDriver").data("id",db_id);
+	var database_id = $("#editDriver").data("id", db_id);
 	//console.log($('#editDriver').data('id')); //works
-	var db_id=db_id;
+	var db_id = db_id;
 	//return [first_name, last_name, id, plate_number];
 }
 
 
 $("#btn_search").on('click', function () {
 
-	var url = db_url+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA/?";
+	var url = db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA/?";
 	var first_name = $('#intp_firstName').val();
 	var last_name = $('#inpt_lastName').val();
 	var id = $('#inpt_id').val();
