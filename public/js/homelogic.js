@@ -10,11 +10,10 @@ $(document).ready(function () {
 
 	}).done(function (data) {
 		//console.log(data);
-		if (data != null){
+		if (data != null) {
 			drivers = data;
 			//console.log(drivers);
-		}
-		else error("there is a problem to connect to database");
+		} else error("there is a problem to connect to database");
 
 	});
 
@@ -85,13 +84,32 @@ $(document).ready(function () {
 		modal: true,
 		minHeight: 355,
 		minWidth: 332,
+
 		buttons: {
 			"Edit driver": function () {
-				console.log(beforeEdit.val);
-				if ($("#first_name").val() == beforeEdit.val()) console.log("not edited");
-				else console.log("edited");
+				//console.log(beforeEdit.val);
+				if ($("#first_name").val() == beforeEdit.val())
+					console.log("not edited");
+				else
+					console.log("edited");
 			},
-			"Delete driver": deleteDriver($("#first_name").val(), $("#last_name").val(), $("#id").val(), $("#plate_number").val()),
+			"Delete driver": function(){
+				var database_id=($('#editDriver').data('id')); 
+				$.ajax({
+			
+					url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers/"+database_id+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+					async: true,
+					timeout: 300000,
+					type: "DELETE",
+					success: function (data) {
+						//console.log("deleted");
+						location.reload(true);
+					},
+					error: function (xhr, status, err) {
+						console.log(err);
+					}
+				})
+			}, 
 			"Cancel": function () {
 				editDriver.dialog('close');
 			}
@@ -148,59 +166,51 @@ $(document).ready(function () {
 
 /*--- fill the table with all drivers ---*/
 function fillTable(myArr) {
-	
+
 	var htmlCode = '';
 	$.each(myArr, function (key, value) {
-		htmlCode += '<tr "driver_id"=value._id onclick="showName(this)">';
+		htmlCode += '<tr data-id="' + value._id.$oid + '" onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';
 		htmlCode += '<td>' + value.id + '</td>';
 		htmlCode += '<td>' + value.p_num + '</td>';
 		htmlCode += '</tr> ';
-		//console.log($(this).driver_id);
 	});
 	$("#tbl_drivers tbody").append(htmlCode);
 }
 
-//the function will ba called after clicking on a cell
+//the function will be called after clicking on a cell
 function showName(tr) {
 	var table = $('#tbl_drivers tbody tr td');
 	var f_name = $(tr).find('td:eq(0)').html();
 	var l_name = $(tr).find('td:eq(1)').html();
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
-	//console.log($(tr).driver-id.val());
+	var db_id=$(tr).attr("data-id");
+	//console.log($(tr).attr("data-id")); works
 	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
 	beforeEdit = $("#first_name").val(f_name);
-	showEditDialog(f_name, l_name, id, p_num);
+	showEditDialog(f_name, l_name, id, p_num, db_id);
 }
 
 //Deleting the driver
-function deleteDriver(first_name, last_name, id, p_num) {
-	var params;
-/*
-	$.ajax({
+function deleteDriver() {
+	//console.log($(this).db_id);
+	
 		
-		url: "https://api.mongolab.com/api/1/databases/cars/collections/drivers/"+params+"?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
-		async: true,
-		timeout: 300000,
-		type: "DELETE",
-		success: function (data) {
-			location.reload(true);
-		},
-		error: function (xhr, status, err) {
-			console.log(err);
-		}
-	})
-*/
+	
 }
 
-function showEditDialog(f_name, l_name, id, p_num) {
+function showEditDialog(f_name, l_name, id, p_num,db_id) {
 	editDriver.dialog('open');
 	var first_name = $("#first_name").val(f_name);
 	var last_name = $("#last_name").val(l_name);
 	var id = $("#id").val(id);
 	var plate_number = $("#plate_number").val(p_num);
+
+	var database_id=$("#editDriver").data("id",db_id);
+	//console.log($('#editDriver').data('id')); //works
+	var db_id=db_id;
 	//return [first_name, last_name, id, plate_number];
 }
 
