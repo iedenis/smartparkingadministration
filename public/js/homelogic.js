@@ -4,11 +4,12 @@ var addDriver = $("#addDriver");
 
 var beforeEdit;
 var db_url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers";
+var api_key="?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
 // loading data from DB
 $(document).ready(function () {
 	$.ajax({
 		//method: 'GET',
-		url: db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+		url: db_url +api_key,
 
 	}).done(function (data) {
 		//console.log(data);
@@ -22,42 +23,6 @@ $(document).ready(function () {
 
 });
 
-// adding a new driver from /addnewdriver page
-$("#add_driver").on("submit", function (e) {
-	e.preventDefault();
-	var first_name = $('#first_name').val();
-	var last_name = $('#last_name').val();
-	var id = $('#id').val();
-	var p_num = $('#p_num').val();
-	if (first_name && last_name && id && p_num && id) {
-		$.ajax({
-			url: db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
-			data: JSON.stringify({
-				"first_name": first_name,
-				"last_name": last_name,
-				"id": id,
-				"p_num": p_num,
-				"permission_status": "allowed",
-				"parking_status": "outside"
-			}),
-			type: "POST",
-			contentType: "application/json",
-			success: function (data) {
-				location.reload(true);
-			},
-			error: function (xhr, status, err) {
-				console.log(err);
-			}
-		})
-	} else alert("Please fill the form correctly");
-})
-
-/*$("#add-driver").submit(function(){
-	var wrongP_name=false;
-	if(wrongP_name)return alert("submitted");
-	else return alert("NOT submitted");
-})
-*/
 
 //show all drivers from DB in the table
 $("#btn_showAllDrivers").click(function () {
@@ -99,7 +64,7 @@ $(document).ready(function () {
 				var database_id = ($('#editDriver').data('id'));
 				$.ajax({
 
-					url: db_url + "/" + database_id + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+					url: db_url + "/" + database_id + api_key,
 					async: true,
 					timeout: 300000,
 					type: "DELETE",
@@ -136,13 +101,13 @@ $(document).ready(function(){
 		buttons: {
 			'Add driver': function () {
 				{
-					var first_name = $('#f_name').val();
-					var last_name = $('#l_name').val();
-					var id = $('#driver_id').val();
-					var p_num = $('#p_number').val();
+					var first_name = $('#first_name').val();
+					var last_name = $('#last_name').val();
+					var id = $('#id').val();
+					var p_num = $('#plate_number').val();
 					if (first_name && last_name && id && p_num && id) {
 						$.ajax({
-							url: db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA",
+							url: db_url + api_key,
 							data: JSON.stringify({
 								"first_name": first_name,
 								"last_name": last_name,
@@ -201,7 +166,6 @@ function showName(tr) {
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
-	console.log(table);
 	//console.log($(tr).attr("data-id")); works
 	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
 	beforeEdit = $("#first_name").val(f_name);
@@ -218,10 +182,10 @@ function deleteDriver() {
 
 function showEditDialog(f_name, l_name, id, p_num, db_id) {
 	editDriver.dialog('open');
-	var first_name = $("#first_name").val(f_name);
-	var last_name = $("#last_name").val(l_name);
-	var id = $("#id").val(id);
-	var plate_number = $("#plate_number").val(p_num);
+	var first_name = $("#f_name").val(f_name);
+	var last_name = $("#l_name").val(l_name);
+	var id = $("#driver_id").val(id);
+	var plate_number = $("#p_number").val(p_num);
 
 	var database_id = $("#editDriver").data("id", db_id);
 	//console.log($('#editDriver').data('id')); //works
@@ -232,7 +196,7 @@ function showEditDialog(f_name, l_name, id, p_num, db_id) {
 
 $("#btn_search").on('click', function () {
 
-	var url = db_url + "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA/?";
+	var url = db_url + api_key;
 	var first_name = $('#intp_firstName').val();
 	var last_name = $('#inpt_lastName').val();
 	var id = $('#inpt_id').val();
