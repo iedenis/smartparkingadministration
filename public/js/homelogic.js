@@ -26,6 +26,7 @@ $(document).ready(function () {
 			$("#prgs_space").css({
 				'color': 'black'
 			});
+			$("#User_len").text(" " + drivers.length);
 			//console.log(drivers);
 		} else error("there is a problem to connect to database");
 
@@ -39,10 +40,7 @@ $(document).ready(function () {
 $("#btn_showAllDrivers").click(function () {
 
 	if (drivers != null) {
-		$("#User_len").text(" " + drivers.length);
-
 		fillTable(drivers);
-
 	}
 });
 
