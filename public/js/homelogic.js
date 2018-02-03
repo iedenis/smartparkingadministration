@@ -9,11 +9,10 @@ var id_before;
 var db_url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers";
 var api_key = "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
 // loading data from DB
-$(document).ready(function () {
+		$(document).ready(function () {
 	$.ajax({
 		//method: 'GET',
 		url: db_url + api_key,
-
 	}).done(function (data) {
 		//console.log(data);
 		if (data != null) {
@@ -27,12 +26,12 @@ $(document).ready(function () {
 				'color': 'black'
 			});
 			$("#User_len").text(" " + drivers.length);
+			
 			//console.log(drivers);
 		} else error("there is a problem to connect to database");
 
 	});
-
-
+			
 });
 
 
@@ -176,8 +175,10 @@ function removeFromTable(database_id) {
 }
 
 /*--- fill the table with all drivers ---*/
-function fillTable(myArr) {
-
+function fillTable(myArr,status) {
+if(status == "inside"){}
+	else if(status == "inside"){}
+	else{
 	var htmlCode = '';
 	$.each(myArr, function (key, value) {
 		htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
@@ -188,6 +189,7 @@ function fillTable(myArr) {
 		htmlCode += '</tr> ';
 	});
 	$("#tbl_drivers tbody").append(htmlCode);
+	}
 }
 
 //the function will be called after clicking on a cell
@@ -231,4 +233,17 @@ $("#myInput").on("keyup", function () {
 	$('#tbl_drivers tbody tr').filter(function () {
 		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 	});
+});
+
+$('input[type=radio][name=isInside]').change(function(){
+	if(this.value == 'inside'){
+		alert("clicked"+this.value);
+	}
+	if(this.value == 'outside'){
+		alert("clicked"+this.value);
+	}
+	
+	if(this.value == 'all'){
+          fillTable(drivers,this.value);
+	}
 });
