@@ -55,6 +55,7 @@ $(document).ready(function () {
 		minWidth: 332,
 		buttons: {
 			"Edit driver": function () {
+				var db_values = ["first_name", "last_name", "id", "p_num"];
 				var before = [f_name_before, l_name_before, p_num_before, id_before];
 				var after = [$("#f_name").val(), $("#l_name").val(), $("#p_number").val(), $("#driver_id").val()];
 				if ((before[0] == after[0]) && (before[1] == after[1]) &&
@@ -68,16 +69,27 @@ $(document).ready(function () {
 							changes[i] = after[i];
 					}
 					//console.log(changes);
-					changes = jQuery.grep(changes, function (n, i) {
+					/*changes = jQuery.grep(changes, function (n, i) {
 						return (n !== "" && n != null);
 					});
+					*/
 					//console.log(changes);
-					/*$.ajax({
-						url:db_url+"/"+da
-					})*/
+					$.ajax({
+						url: db_url + "/" + database_id + api_key,
+						data: JSON.stringify({"$set": {"first_name": "Sergey"}} ),
+						type: "PUT",
+						contentType: "application/json",
+						success: function(){
+							editDriver.dialog('close');
+							location.reload(true);
+						},
+						error: function (xhr, status, err) {
+							console.log(err);
+						}
+					});
 				}
-
 			},
+
 			"Delete driver": function () {
 				var database_id = ($('#editDriver').data('id'));
 				$.ajax({
