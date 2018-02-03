@@ -1,28 +1,31 @@
 var drivers;
 var editDriver = $('#editDriver');
 var addDriver = $("#addDriver");
+var f_name_before;
+var l_name_before;
+var p_num_before;
+var id_before;
 
-var beforeEdit;
 var db_url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers";
-var api_key="?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
+var api_key = "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
 // loading data from DB
 $(document).ready(function () {
 	$.ajax({
 		//method: 'GET',
-		url: db_url +api_key,
+		url: db_url + api_key,
 
 	}).done(function (data) {
 		//console.log(data);
 		if (data != null) {
 			drivers = data;
-			   var result = (50 * drivers.length) / 100;
-		         $("#div_prgs").css({
-			       'width': result
-		          });
-	    	       $("#prgs_space").text("" + result + "%");
-		             $("#prgs_space").css({
-			          'color': 'black'
-		                });
+			var result = (50 * drivers.length) / 100;
+			$("#div_prgs").css({
+				'width': result
+			});
+			$("#prgs_space").text("" + result + "%");
+			$("#prgs_space").css({
+				'color': 'black'
+			});
 			//console.log(drivers);
 		} else error("there is a problem to connect to database");
 
@@ -37,7 +40,7 @@ $("#btn_showAllDrivers").click(function () {
 
 	if (drivers != null) {
 		$("#User_len").text(" " + drivers.length);
-		
+
 		fillTable(drivers);
 
 	}
@@ -52,14 +55,30 @@ $(document).ready(function () {
 		modal: true,
 		minHeight: 355,
 		minWidth: 332,
-
 		buttons: {
 			"Edit driver": function () {
-				//console.log(beforeEdit.val);
-				if ($("#f_name").val() == beforeEdit.val())
-					console.log("not edited");
-				else
-					console.log("edited");
+				var before = [f_name_before, l_name_before, p_num_before, id_before];
+				var after = [$("#f_name").val(), $("#l_name").val(), $("#p_number").val(), $("#driver_id").val()];
+				if ((before[0] == after[0]) && (before[1] == after[1]) &&
+					(before[2] == after[2]) && (before[3] == after[3])) {
+					editDriver.dialog('close');
+				} else {
+					var database_id = ($('#editDriver').data('id'));
+					var changes = [];
+					for (i = 0; i < 4; i++) {
+						if (before[i] != after[i])
+							changes[i] = after[i];
+					}
+					//console.log(changes);
+					changes = jQuery.grep(changes, function (n, i) {
+						return (n !== "" && n != null);
+					});
+					//console.log(changes);
+					$.ajax({
+						url:db_url+"/"+database_id+api_key;
+					})
+				}
+
 			},
 			"Delete driver": function () {
 				var database_id = ($('#editDriver').data('id'));
@@ -84,7 +103,7 @@ $(document).ready(function () {
 		}
 	})
 
-	
+
 
 })
 
@@ -93,7 +112,7 @@ $("#btn_addDriver").click(function () {
 })
 
 
-$(document).ready(function(){
+$(document).ready(function () {
 	addDriver.dialog({
 		title: "Add a new driver",
 		autoOpen: false,
@@ -119,7 +138,7 @@ $(document).ready(function(){
 							type: "POST",
 							contentType: "application/json",
 							success: function (data) {
-								
+
 								//$('#tbl_drivers tr:last').after('<tr>...</tr><tr>...</tr>');
 
 								location.reload(true);
@@ -170,19 +189,26 @@ function showName(tr) {
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
 	//console.log($(tr).attr("data-id")); works
-	var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
-	beforeEdit = $("#f_name").val(f_name);
-	console.log(beforeEdit);
+	//var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
+
 	showEditDialog(f_name, l_name, id, p_num, db_id);
 }
 
 function showEditDialog(f_name, l_name, id, p_num, db_id) {
 	editDriver.dialog('open');
+
 	var first_name = $("#f_name").val(f_name);
 	var last_name = $("#l_name").val(l_name);
 	var id = $("#driver_id").val(id);
 	var plate_number = $("#p_number").val(p_num);
-
+	$("#f_name").data('name', first_name);
+	$("#l_name").data('lname', last_name);
+	$("#driver_id").data('id', id);
+	$("#p_number").data('pNumber', plate_number);
+	f_name_before = $("#f_name").data("name").val();
+	l_name_before = $("#l_name").data("lname").val();
+	p_num_before = $("#p_number").data("pNumber").val();
+	id_before = $("#driver_id").data("id").val();
 	var database_id = $("#editDriver").data("id", db_id);
 	//console.log($('#editDriver').data('id')); //works
 	var db_id = db_id;
@@ -190,10 +216,9 @@ function showEditDialog(f_name, l_name, id, p_num, db_id) {
 }
 
 //Filterable Table with search paramethers.
-$("#myInput").on("keyup",function(){
+$("#myInput").on("keyup", function () {
 	var value = $(this).val().toLowerCase();
-	  $('#tbl_drivers tbody tr').filter(function(){
-		  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1) 
-	  });
+	$('#tbl_drivers tbody tr').filter(function () {
+		$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	});
 });
-
