@@ -54,7 +54,7 @@ $(document).ready(function () {
 		minWidth: 332,
 		buttons: {
 			"Edit driver": function () {
-				var db_values = ["\"first_name:\" ", "\"last_name: \"", "id: ", "\"p_num: \""];
+				var db_values = ["first_name" , "last_name", "id", "p_num: \""];
 				var before = [f_name_before, l_name_before, p_num_before, id_before];
 				var after = [$("#f_name").val(), $("#l_name").val(), $("#p_number").val(), $("#driver_id").val()];
 				if ((before[0] == after[0]) && (before[1] == after[1]) &&
@@ -65,21 +65,30 @@ $(document).ready(function () {
 					var changes = [];
 					for (i = 0; i < 4; i++) {
 						if (before[i] != after[i])
-							changes[i] = "{\"$set\" :"+"{"+db_values[i]+after[i]+"}}";
+							before[i] = after[i];
 					}
 					//console.log(changes);
-					changes = jQuery.grep(changes, function (n, i) {
+					/*changes = jQuery.grep(changes, function (n, i) {
 						return (n !== "" && n != null);
 					});
 					console.log(changes);
-					//console.log(changes);
+					*/
+					
 					$.ajax({
 						url: db_url + "/" + database_id + api_key,
-						data: JSON.stringify({changes} ),
+						data: JSON.stringify({
+						"first_name": before[0],
+						"last_name": before[1],
+						"id": before[2],
+						"p_num": before[3],
+						"permission_status": "allowed",
+						"parking_status": "outside"
+					}),
 						type: "PUT",
 						contentType: "application/json",
-						success: function(){
+						success: function(){							
 							editDriver.dialog('close');
+							editTable(before,database_id);
 							//location.reload(true);
 						},
 						error: function (xhr, status, err) {
@@ -116,6 +125,10 @@ $(document).ready(function () {
 
 })
 
+//function will be called after the driver editing
+function editTable(arr,tr_id){
+	
+}
 $("#btn_addDriver").click(function () {
 	addDriver.dialog('open');
 })
