@@ -164,7 +164,21 @@ function removeFromTable(database_id) {
 
 /*--- fill the table with all drivers ---*/
 function fillTable(myArr,status) {
-if(status == "inside"){}
+if(status == "outside"){
+    var htmlCode = '';
+	$.each(myArr, function (key, value) {
+		  
+		htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
+		htmlCode += '<td>' + value.first_name + '</td>';
+		htmlCode += '<td>' + value.last_name + '</td>';
+		htmlCode += '<td>' + value.id + '</td>';
+		htmlCode += '<td>' + value.p_num + '</td>';
+		htmlCode += '</tr> ';
+	});
+	$("#tbl_drivers tbody").append(htmlCode);
+	}	
+  
+  
 	else if(status == "inside"){}
 	else{
 	var htmlCode = '';
