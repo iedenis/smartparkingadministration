@@ -224,14 +224,14 @@ body{
 	
 }
 a:hover { 
-    background-color: #41f4c4 !important;
+    background-color: #1E88E5 !important;
 }
 
 /*---Table-size ---*/
-.Table-size{
+table{
 	
-	
-	width: 70%;
+	padding-left: 30px !iportant;
+	width: 80%;    !iprotant
 		
 }
 
@@ -282,5 +282,5 @@ a:hover {
 
 .size-inpt{
 	
-	width: 30% !important;
+	width: 40% !important;
 }

@@ -74,9 +74,9 @@ $(document).ready(function () {
 						return (n !== "" && n != null);
 					});
 					//console.log(changes);
-					$.ajax({
-						url:db_url+"/"+database_id+api_key;
-					})
+					/*$.ajax({
+						url:db_url+"/"+da
+					})*/
 				}
 
 			},
