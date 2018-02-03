@@ -179,13 +179,14 @@ function fillTable(myArr,status) {
 if(status == "outside"){
     var htmlCode = '';
 	$.each(myArr, function (key, value) {
-		  
+		  if(value.parking_status = "outside"){
 		htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';
 		htmlCode += '<td>' + value.id + '</td>';
 		htmlCode += '<td>' + value.p_num + '</td>';
 		htmlCode += '</tr> ';
+			  }
 	});
 	$("#tbl_drivers tbody").append(htmlCode);
 	}	
@@ -254,7 +255,8 @@ $('input[type=radio][name=isInside]').change(function(){
 		alert("clicked"+this.value);
 	}
 	if(this.value == 'outside'){
-		alert("clicked"+this.value);
+		 
+		fillTable(drivers,this.value);
 	}
 	
 	if(this.value == 'all'){
