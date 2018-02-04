@@ -60,8 +60,6 @@ $(document).ready(function () {
 				var after = [$("#f_name").val(), $("#l_name").val(), $("#p_number").val(), $("#driver_id").val(), $("select#permission_status").val()];
 				if ((before[0] == after[0]) && (before[1] == after[1]) &&
 					(before[2] == after[2]) && (before[3] == after[3]) && (before[4] == after[4])) {
-					//console.log("status before " + before[4]);
-					//console.log("status after " + after[4])
 					//console.log("equal? " + eval(before[4] == after[4]));
 					editDriver.dialog('close');
 				} else {
@@ -118,9 +116,6 @@ $(document).ready(function () {
 			}
 		}
 	})
-
-
-
 })
 
 //function will be called after the driver editing
@@ -168,9 +163,7 @@ $(document).ready(function () {
 							type: "POST",
 							contentType: "application/json",
 							success: function (data) {
-
-								//$('#tbl_drivers tr:last').after('<tr>...</tr><tr>...</tr>');
-
+//Have to work on it//								
 								location.reload(true);
 							},
 							error: function (xhr, status, err) {
@@ -213,7 +206,7 @@ function fillTable(myArr, status) {
 	} else if (status == "inside") {} else {
 		var htmlCode = '';
 		$.each(myArr, function (key, value) {
-			htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status+ '" onclick="showName(this)">';
+			htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" onclick="showName(this)">';
 			htmlCode += '<td>' + value.first_name + '</td>';
 			htmlCode += '<td>' + value.last_name + '</td>';
 			htmlCode += '<td>' + value.id + '</td>';
@@ -232,19 +225,19 @@ function showName(tr) {
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
-	var p_status= $(tr).attr("data-permission");
+	var p_status = $(tr).attr("data-permission");
 
-	showEditDialog(f_name, l_name, id, p_num, db_id,p_status);
+	showEditDialog(f_name, l_name, id, p_num, db_id, p_status);
 }
 
-function showEditDialog(f_name, l_name, id, p_num, db_id,p_status) {
+function showEditDialog(f_name, l_name, id, p_num, db_id, p_status) {
 	editDriver.dialog('open');
 
 	var first_name = $("#f_name").val(f_name);
 	var last_name = $("#l_name").val(l_name);
 	var id = $("#driver_id").val(id);
 	var plate_number = $("#p_number").val(p_num);
-	var permission_status =$("select#permission_status").val() ;
+	var permission_status = $("select#permission_status").val();
 	$("#f_name").data('name', first_name);
 	$("#l_name").data('lname', last_name);
 	$("#driver_id").data('id', id);
@@ -254,14 +247,12 @@ function showEditDialog(f_name, l_name, id, p_num, db_id,p_status) {
 	l_name_before = $("#l_name").data("lname").val();
 	p_num_before = $("#p_number").data("pNumber").val();
 	id_before = $("#driver_id").data("id").val();
-	permission_status_before=p_status;
-	//$("#editDriver").data("status", p_status);
+	permission_status_before = p_status;
 	//console.log($("#editDriver").data('status'));//works
 	var database_id = $("#editDriver").data("id", db_id);
-	var permission_status=$("#editDriver").data("status",p_status);
+	var permission_status = $("#editDriver").data("status", p_status);
 	//console.log($('#editDriver').data('id')); //works
 	var db_id = db_id;
-	//return [first_name, last_name, id, plate_number];
 }
 
 //Filterable Table with search paramethers.
