@@ -1,99 +1,114 @@
 <!doctype html>
-<html >
-  <head>
-    <title>Admin area | About</title>
+<html>
 
-    <!-- Bootstrap core CSS -->
-	  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	  <link rel="stylesheet" type="text/css" href="css/style.css">
-	  
-  </head>
+<head>
+	<title>Admin area | About</title>
 
-  <body >
-	  <!-- Header -->
-	  <header id="header">
-		  <div class="container" style =  "width: 100%">
-			  <div class="row">
-			    <div class="col-md-10">
-					<h1><span class="glyphicon glyphicon-hand-up"></span> About <small> About this site</small></h1>
-				</div>
-			  </div>
-		  </div>
-		  <!-- header 2 -->
-	  </header>
-	  <section id="breadcrumb">
-	      <div class="container">
-		      <ol class="breadcrumb">
-			   <li class="active">About</li>
-			  </ol>
-		  </div>
-	  </section>
-	  
-	  <!-- silder  -->
-	  <section id="main">
-	     <div class="container">
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body>
+	<!-- Header -->
+	<header id="header">
+		<div class="container" style="width: 100%">
 			<div class="row">
-			    <div class="col-md-3"> 
-					 <div class="list-group ">
-            <a href="/" class="list-group-item "><span class="glyphicon glyphicon-question-sign"></span> Home</a>
-            <a href="contacts" class="list-group-item"><span class="glyphicon glyphicon-phone"></span>  Contact with Adminstration</a>
-            <a id="href_guide" href="guide" class="list-group-item active main-color"><span class="glyphicon glyphicon-hand-up"></span>  About</a>
-                     </div>
+				<div class="col-md-10">
+					<h1>
+						<span class="glyphicon glyphicon-hand-up"></span> About
+						<small> About this site</small>
+					</h1>
 				</div>
-				
-				<!-- Contect -->
-				 <div class="col-md-9 container"  data-spy="scroll" data-target="#myScrollspy" data-offset="20" >
-					 <div class="panel panel-default boreder-panel" >
-                        <div class="panel-heading main-color" >
-                           <h3 class="panel-title">About</h3>
-                        </div>
-                            <div class="panel-body ">
-						       <div class="col-md-23  ">
-								   <div >
-									    <div class="container-notBootstrap">
-                                          <div class="row">
-                                             <nav class="col-sm-3" id="myScrollspy">
-                                                <ul class="nav nav-pills nav-stacked">
-                                                      <li ><a href="#section1">Section 1</a></li>
-                                                      <li><a href="#section2">Section 2</a></li>
-                                                      <li><a href="#section3">Section 3</a></li>
-                                                  </ul>
-                                             </nav>
-											  
-                                              <div class="col-sm-9">
-                                                <div id="section1">    
-                                                   <h1>Section 1</h1>
-                                                     <p></p>
-                                                 </div>
-												  
-                                          <div id="section2"> 
-                                            <h1>Section 2</h1>
-                                            <p></p>
-                                         </div>  
-												  
-                                         <div id="section3">         
-                                           <h1>Section 3</h1>
-                                            <p></p>
-                                         </div>
-                                    </div>
-                              </div>
-                        </div>
-					</div>  
-				  </div> 
-				</div> 
-              </div>	 
-				</div>
-			 </div>
-		 </div>
-	  </section> 
-	 <footer id="footer">
-		 <div class="container">
-	    <p>  Admin copyright,  &copy; 2018 </p>
+			</div>
 		</div>
-	 </footer>
-   
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	  <script src="js/bootstrap.min.js"></script>
-	  
-  </body>
+		<!-- header 2 -->
+	</header>
+	<section id="breadcrumb">
+		<div class="container">
+			<ol class="breadcrumb">
+				<li class="active">About</li>
+			</ol>
+		</div>
+	</section>
+
+	<!-- silder  -->
+	<section id="main">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="list-group ">
+						<a href="/" class="list-group-item ">
+							<span class="glyphicon glyphicon-question-sign"></span> Home</a>
+						<a href="contacts" class="list-group-item">
+							<span class="glyphicon glyphicon-phone"></span> Contact with Adminstration</a>
+						<a id="href_guide" href="guide" class="list-group-item active main-color">
+							<span class="glyphicon glyphicon-hand-up"></span> About</a>
+					</div>
+				</div>
+
+				<!-- Contect -->
+				<div class="col-md-9 container" data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+					<div class="panel panel-default boreder-panel">
+						<div class="panel-heading main-color">
+							<h3 class="panel-title">About</h3>
+						</div>
+						<div class="panel-body ">
+							<div class="col-md-23  ">
+								<div>
+									<div class="container-notBootstrap">
+										<div class="row">
+											<div class="col-sm-9">
+												<div id="section1">
+													<h1>Description</h1>
+													<p>
+														This is an open source project for “smart parking system”. The purpose of the project is to make cars parking a little bit
+														more smart than a regular parking. The program can monitor all entering and outgoing cars at the parking.
+
+													</p>
+												</div>
+
+												<div id="section2">
+													<h1>Admin tool</h1>
+													<p>
+														This tool is for controlling the DB. site: https://smartparkingadministration.herokuapp.com/ Purpose: Setting the necessary
+														permissions for the drivers (allow, forbidden) Expiration date // maybe :) Searching for drivers and deleting
+														them from the DB Searching for the cars inside the parking or outside
+
+													</p>
+												</div>
+
+												<div id="section3">
+													<h1>PC client</h1>
+													<p>
+														This is a program that will be installed on the PC at the entrance to the parking. It’s written in C# language and connects
+														to remote database (DB) to fetch all the cars from the DB. Purpose: Detecting the licence plate from the picture
+														that has been taken at the entrance. Check in the DB the permissions to enter, expiration date etc. Command
+														to the barrier to open
+
+													</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer id="footer">
+		<div class="container">
+			<p> Admin copyright, &copy; 2018 </p>
+		</div>
+	</footer>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
+</body>
+
 </html>

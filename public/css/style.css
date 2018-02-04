@@ -269,9 +269,9 @@ table{
 	width: 100%;
 }
 
-  #section1 {width: 500px; height: 500px; color: #fff; background-color: #1E88E5;}
-  #section2 {width: 500px; height: 500px; color: #fff; background-color: #673ab7;}
-  #section3 {width: 500px; height: 500px; color: #fff; background-color: #ff9800;}
+  #section1 {width: 500px;  color: #000; background-color: #b3d1ce !important;}
+  #section2 {width: 500px;  color: #000; background-color: #b3d1ce !important;}
+  #section3 {width: 500px;  color: #000; background-color: #b3d1ce !important;}
 
 #addDriver, #editDriver input{
   display: block;
