@@ -5,6 +5,7 @@ var f_name_before;
 var l_name_before;
 var p_num_before;
 var id_before;
+var permission_status_before;
 
 var db_url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers";
 var api_key = "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
@@ -55,24 +56,21 @@ $(document).ready(function () {
 		buttons: {
 			"Edit driver": function () {
 				var db_values = ["first_name", "last_name", "id", "p_num: \""];
-				var before = [f_name_before, l_name_before, p_num_before, id_before];
-				var after = [$("#f_name").val(), $("#l_name").val(), $("#p_number").val(), $("#driver_id").val()];
+				var before = [f_name_before, l_name_before, p_num_before, id_before, permission_status_before];
+				var after = [$("#f_name").val(), $("#l_name").val(), $("#p_number").val(), $("#driver_id").val(), $("select#permission_status").val()];
 				if ((before[0] == after[0]) && (before[1] == after[1]) &&
-					(before[2] == after[2]) && (before[3] == after[3])) {
+					(before[2] == after[2]) && (before[3] == after[3]) && (before[4] == after[4])) {
+					//console.log("status before " + before[4]);
+					//console.log("status after " + after[4])
+					//console.log("equal? " + eval(before[4] == after[4]));
 					editDriver.dialog('close');
 				} else {
 					var database_id = ($('#editDriver').data('id'));
 					var changes = [];
-					for (i = 0; i < 4; i++) {
+					for (i = 0; i < 5; i++) {
 						if (before[i] != after[i])
 							before[i] = after[i];
 					}
-					//console.log(changes);
-					/*changes = jQuery.grep(changes, function (n, i) {
-						return (n !== "" && n != null);
-					});
-					console.log(changes);
-					*/
 
 					$.ajax({
 						url: db_url + "/" + database_id + api_key,
@@ -81,15 +79,15 @@ $(document).ready(function () {
 							"last_name": before[1],
 							"id": before[2],
 							"p_num": before[3],
-							"permission_status": "allowed",
+							"permission_status": before[4],
 							"parking_status": "outside"
 						}),
 						type: "PUT",
 						contentType: "application/json",
 						success: function () {
+							console.log(before[4]);
 							editDriver.dialog('close');
 							editTable(before, database_id);
-							//location.reload(true);
 						},
 						error: function (xhr, status, err) {
 							console.log(err);
@@ -136,6 +134,7 @@ function editTable(arr, tr_id) {
 	$(table_row).find('td:eq(1)').html(arr[1]);
 	$(table_row).find('td:eq(2)').html(arr[3]);
 	$(table_row).find('td:eq(3)').html(arr[2]);
+	$(table_row).attr(arr[4]);
 }
 
 $("#btn_addDriver").click(function () {
@@ -202,7 +201,7 @@ function fillTable(myArr, status) {
 		var htmlCode = '';
 		$.each(myArr, function (key, value) {
 			if (value.parking_status = "outside") {
-				htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
+				htmlCode += '<tr class="driver" data-status="" data-id="' + value._id.$oid + '" onclick="showName(this)">';
 				htmlCode += '<td>' + value.first_name + '</td>';
 				htmlCode += '<td>' + value.last_name + '</td>';
 				htmlCode += '<td>' + value.id + '</td>';
@@ -214,7 +213,7 @@ function fillTable(myArr, status) {
 	} else if (status == "inside") {} else {
 		var htmlCode = '';
 		$.each(myArr, function (key, value) {
-			htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
+			htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status+ '" onclick="showName(this)">';
 			htmlCode += '<td>' + value.first_name + '</td>';
 			htmlCode += '<td>' + value.last_name + '</td>';
 			htmlCode += '<td>' + value.id + '</td>';
@@ -233,25 +232,33 @@ function showName(tr) {
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
-	showEditDialog(f_name, l_name, id, p_num, db_id);
+	var p_status= $(tr).attr("data-permission");
+
+	showEditDialog(f_name, l_name, id, p_num, db_id,p_status);
 }
 
-function showEditDialog(f_name, l_name, id, p_num, db_id) {
+function showEditDialog(f_name, l_name, id, p_num, db_id,p_status) {
 	editDriver.dialog('open');
 
 	var first_name = $("#f_name").val(f_name);
 	var last_name = $("#l_name").val(l_name);
 	var id = $("#driver_id").val(id);
 	var plate_number = $("#p_number").val(p_num);
+	var permission_status =$("select#permission_status").val() ;
 	$("#f_name").data('name', first_name);
 	$("#l_name").data('lname', last_name);
 	$("#driver_id").data('id', id);
 	$("#p_number").data('pNumber', plate_number);
+	$("select#permission_status").val(p_status);
 	f_name_before = $("#f_name").data("name").val();
 	l_name_before = $("#l_name").data("lname").val();
 	p_num_before = $("#p_number").data("pNumber").val();
 	id_before = $("#driver_id").data("id").val();
+	permission_status_before=p_status;
+	//$("#editDriver").data("status", p_status);
+	//console.log($("#editDriver").data('status'));//works
 	var database_id = $("#editDriver").data("id", db_id);
+	var permission_status=$("#editDriver").data("status",p_status);
 	//console.log($('#editDriver').data('id')); //works
 	var db_id = db_id;
 	//return [first_name, last_name, id, plate_number];
