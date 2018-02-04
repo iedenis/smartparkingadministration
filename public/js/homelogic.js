@@ -9,7 +9,7 @@ var id_before;
 var db_url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers";
 var api_key = "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
 // loading data from DB
-		$(document).ready(function () {
+$(document).ready(function () {
 	$.ajax({
 		//method: 'GET',
 		url: db_url + api_key,
@@ -26,12 +26,12 @@ var api_key = "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
 				'color': 'black'
 			});
 			$("#User_len").text(" " + drivers.length);
-			
+
 			//console.log(drivers);
 		} else error("there is a problem to connect to database");
 
 	});
-			
+
 });
 
 
@@ -54,7 +54,7 @@ $(document).ready(function () {
 		minWidth: 332,
 		buttons: {
 			"Edit driver": function () {
-				var db_values = ["first_name" , "last_name", "id", "p_num: \""];
+				var db_values = ["first_name", "last_name", "id", "p_num: \""];
 				var before = [f_name_before, l_name_before, p_num_before, id_before];
 				var after = [$("#f_name").val(), $("#l_name").val(), $("#p_number").val(), $("#driver_id").val()];
 				if ((before[0] == after[0]) && (before[1] == after[1]) &&
@@ -73,22 +73,22 @@ $(document).ready(function () {
 					});
 					console.log(changes);
 					*/
-					
+
 					$.ajax({
 						url: db_url + "/" + database_id + api_key,
 						data: JSON.stringify({
-						"first_name": before[0],
-						"last_name": before[1],
-						"id": before[2],
-						"p_num": before[3],
-						"permission_status": "allowed",
-						"parking_status": "outside"
-					}),
+							"first_name": before[0],
+							"last_name": before[1],
+							"id": before[2],
+							"p_num": before[3],
+							"permission_status": "allowed",
+							"parking_status": "outside"
+						}),
 						type: "PUT",
 						contentType: "application/json",
-						success: function(){							
+						success: function () {
 							editDriver.dialog('close');
-							editTable(before,database_id);
+							editTable(before, database_id);
 							//location.reload(true);
 						},
 						error: function (xhr, status, err) {
@@ -126,9 +126,18 @@ $(document).ready(function () {
 })
 
 //function will be called after the driver editing
-function editTable(arr,tr_id){
-	
+function editTable(arr, tr_id) {
+	var table_row;
+	$("#tbl_drivers tr").each(function (i) {
+		if (tr_id == $(this).attr("data-id"))
+			table_row = $(this);
+	})
+	$(table_row).find('td:eq(0)').html(arr[0]);
+	$(table_row).find('td:eq(1)').html(arr[1]);
+	$(table_row).find('td:eq(2)').html(arr[3]);
+	$(table_row).find('td:eq(3)').html(arr[2]);
 }
+
 $("#btn_addDriver").click(function () {
 	addDriver.dialog('open');
 })
@@ -188,35 +197,31 @@ function removeFromTable(database_id) {
 }
 
 /*--- fill the table with all drivers ---*/
-function fillTable(myArr,status) {
-if(status == "outside"){
-    var htmlCode = '';
-	$.each(myArr, function (key, value) {
-		  if(value.parking_status = "outside"){
-		htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
-		htmlCode += '<td>' + value.first_name + '</td>';
-		htmlCode += '<td>' + value.last_name + '</td>';
-		htmlCode += '<td>' + value.id + '</td>';
-		htmlCode += '<td>' + value.p_num + '</td>';
-		htmlCode += '</tr> ';
-			  }
-	});
-	$("#tbl_drivers tbody").append(htmlCode);
-	}	
-  
-  
-	else if(status == "inside"){}
-	else{
-	var htmlCode = '';
-	$.each(myArr, function (key, value) {
-		htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
-		htmlCode += '<td>' + value.first_name + '</td>';
-		htmlCode += '<td>' + value.last_name + '</td>';
-		htmlCode += '<td>' + value.id + '</td>';
-		htmlCode += '<td>' + value.p_num + '</td>';
-		htmlCode += '</tr> ';
-	});
-	$("#tbl_drivers tbody").append(htmlCode);
+function fillTable(myArr, status) {
+	if (status == "outside") {
+		var htmlCode = '';
+		$.each(myArr, function (key, value) {
+			if (value.parking_status = "outside") {
+				htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
+				htmlCode += '<td>' + value.first_name + '</td>';
+				htmlCode += '<td>' + value.last_name + '</td>';
+				htmlCode += '<td>' + value.id + '</td>';
+				htmlCode += '<td>' + value.p_num + '</td>';
+				htmlCode += '</tr> ';
+			}
+		});
+		$("#tbl_drivers tbody").append(htmlCode);
+	} else if (status == "inside") {} else {
+		var htmlCode = '';
+		$.each(myArr, function (key, value) {
+			htmlCode += '<tr class="driver" data-id="' + value._id.$oid + '" onclick="showName(this)">';
+			htmlCode += '<td>' + value.first_name + '</td>';
+			htmlCode += '<td>' + value.last_name + '</td>';
+			htmlCode += '<td>' + value.id + '</td>';
+			htmlCode += '<td>' + value.p_num + '</td>';
+			htmlCode += '</tr> ';
+		});
+		$("#tbl_drivers tbody").append(htmlCode);
 	}
 }
 
@@ -228,9 +233,6 @@ function showName(tr) {
 	var id = $(tr).find('td:eq(2)').html();
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
-	//console.log($(tr).attr("data-id")); works
-	//var result = f_name + "\n" + l_name + "\n" + id + "\n" + p_num;
-
 	showEditDialog(f_name, l_name, id, p_num, db_id);
 }
 
@@ -263,16 +265,16 @@ $("#myInput").on("keyup", function () {
 	});
 });
 
-$('input[type=radio][name=isInside]').change(function(){
-	if(this.value == 'inside'){
-		alert("clicked"+this.value);
+$('input[type=radio][name=isInside]').change(function () {
+	if (this.value == 'inside') {
+		alert("clicked" + this.value);
 	}
-	if(this.value == 'outside'){
-		 
-		fillTable(drivers,this.value);
+	if (this.value == 'outside') {
+
+		fillTable(drivers, this.value);
 	}
-	
-	if(this.value == 'all'){
-          fillTable(drivers,this.value);
+
+	if (this.value == 'all') {
+		fillTable(drivers, this.value);
 	}
 });
