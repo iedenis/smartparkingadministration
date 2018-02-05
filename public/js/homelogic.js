@@ -38,7 +38,7 @@ $(document).ready(function () {
 
 //show all drivers from DB in the table
 $("#btn_showAllDrivers").click(function () {
-
+	$(this).prop('disable', true);
 	if (drivers != null) {
 		fillTable(drivers);
 	}
@@ -163,7 +163,7 @@ $(document).ready(function () {
 							type: "POST",
 							contentType: "application/json",
 							success: function (data) {
-//Have to work on it//								
+								//Have to work on it//								
 								location.reload(true);
 							},
 							error: function (xhr, status, err) {
@@ -190,33 +190,39 @@ function removeFromTable(database_id) {
 
 /*--- fill the table with all drivers ---*/
 function fillTable(myArr, status) {
+	var insideDrivers = [];
+	var outsideDrivers = [];
+	//filtering drivers by status: inside/outside
+	for (i = 0; i < drivers.length; i++) {
+		if (drivers[i].parking_status == 'inside')
+			insideDrivers.push(drivers[i])
+		else
+			outsideDrivers.push(drivers[i]);
+	}
+
 	if (status == "outside") {
-		var htmlCode = '';
-		$.each(myArr, function (key, value) {
-			if (value.parking_status = "outside") {
-				htmlCode += '<tr class="driver" data-status="" data-id="' + value._id.$oid + '" onclick="showName(this)">';
-				htmlCode += '<td>' + value.first_name + '</td>';
-				htmlCode += '<td>' + value.last_name + '</td>';
-				htmlCode += '<td>' + value.id + '</td>';
-				htmlCode += '<td>' + value.p_num + '</td>';
-				htmlCode += '</tr> ';
-			}
-		});
-		$("#tbl_drivers tbody").append(htmlCode);
-	} else if (status == "inside") {} else {
-		var htmlCode = '';
-		$.each(myArr, function (key, value) {
-			htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" onclick="showName(this)">';
-			htmlCode += '<td>' + value.first_name + '</td>';
-			htmlCode += '<td>' + value.last_name + '</td>';
-			htmlCode += '<td>' + value.id + '</td>';
-			htmlCode += '<td>' + value.p_num + '</td>';
-			htmlCode += '</tr> ';
-		});
-		$("#tbl_drivers tbody").append(htmlCode);
+		fillHTMLTable(outsideDrivers);
+	} else if (status == "inside") {
+		fillHTMLTable(insideDrivers);
+	} else {
+		fillHTMLTable(drivers);
 	}
 }
 
+function fillHTMLTable(arrayOfDrivers) {
+
+	var htmlCode = '';
+	$.each(arrayOfDrivers, function (key, value) {
+		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" onclick="showName(this)">';
+		htmlCode += '<td>' + value.first_name + '</td>';
+		htmlCode += '<td>' + value.last_name + '</td>';
+		htmlCode += '<td>' + value.id + '</td>';
+		htmlCode += '<td>' + value.p_num + '</td>';
+		htmlCode += '</tr> ';
+	});
+	$("#tbl_drivers tbody").append(htmlCode);
+
+}
 //the function will be called after clicking on a cell
 function showName(tr) {
 	var table = $('#tbl_drivers tbody tr td');
@@ -263,16 +269,23 @@ $("#myInput").on("keyup", function () {
 	});
 });
 
-$('input[type=radio][name=isInside]').change(function () {
+$('input[type=radio][name=isInside]').change(function (e) {
+	//reloadTable();
+	e.preventDefault();
 	if (this.value == 'inside') {
-		alert("clicked" + this.value);
-	}
-	if (this.value == 'outside') {
+		fillTable(drivers, this.value);
+	} else if (this.value == 'outside') {
+		//$("#tbl_drivers").load("/ #tbl_drivers");
 
 		fillTable(drivers, this.value);
-	}
 
-	if (this.value == 'all') {
-		fillTable(drivers, this.value);
+	} else {
+		fillTable(drivers, 'all');
 	}
 });
+
+function reloadTable() {
+	//fillTable(drivers, 'all');
+	$("#tbl_drivers").load("/ #tbl_drivers");
+
+}
