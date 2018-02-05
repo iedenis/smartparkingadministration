@@ -78,12 +78,12 @@ $(document).ready(function () {
 							"id": before[2],
 							"p_num": before[3],
 							"permission_status": before[4],
-							"parking_status": "outside"
+							"parking_status": $("#editDriver").data('parkingstatus')
 						}),
 						type: "PUT",
 						contentType: "application/json",
 						success: function () {
-							console.log(before[4]);
+							//console.log(before[4]); check the permission status
 							editDriver.dialog('close');
 							editTable(before, database_id);
 						},
@@ -216,7 +216,7 @@ function fillHTMLTable(arrayOfDrivers) {
 	})
 	var htmlCode = '';
 	$.each(arrayOfDrivers, function (key, value) {
-		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" onclick="showName(this)">';
+		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" data-parkingstatus="'+value.parking_status+'" onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';
 		htmlCode += '<td>' + value.id + '</td>';
@@ -235,11 +235,11 @@ function showName(tr) {
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
 	var p_status = $(tr).attr("data-permission");
-
-	showEditDialog(f_name, l_name, id, p_num, db_id, p_status);
+	var park_status=$(tr).attr("data-parkingstatus");
+	showEditDialog(f_name, l_name, id, p_num, db_id, p_status,park_status);
 }
 
-function showEditDialog(f_name, l_name, id, p_num, db_id, p_status) {
+function showEditDialog(f_name, l_name, id, p_num, db_id, p_status,park_status) {
 	editDriver.dialog('open');
 
 	var first_name = $("#f_name").val(f_name);
@@ -256,6 +256,7 @@ function showEditDialog(f_name, l_name, id, p_num, db_id, p_status) {
 	l_name_before = $("#l_name").data("lname").val();
 	p_num_before = $("#p_number").data("pNumber").val();
 	id_before = $("#driver_id").data("id").val();
+	$("#editDriver").data('parkingstatus',park_status);
 	permission_status_before = p_status;
 	//console.log($("#editDriver").data('status'));//works
 	var database_id = $("#editDriver").data("id", db_id);
