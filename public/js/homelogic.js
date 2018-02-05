@@ -188,7 +188,7 @@ function removeFromTable(database_id) {
 	})
 }
 
-/*--- fill the table with all drivers ---*/
+/*--- filling the table with all drivers ---*/
 function fillTable(myArr, status) {
 	var insideDrivers = [];
 	var outsideDrivers = [];
@@ -210,7 +210,10 @@ function fillTable(myArr, status) {
 }
 
 function fillHTMLTable(arrayOfDrivers) {
-
+	//	$("#tbl_drivers").Datatable.ajax.reload();
+		$("#tbl_drivers tr").each(function () {
+			$(this).remove();
+	})
 	var htmlCode = '';
 	$.each(arrayOfDrivers, function (key, value) {
 		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" onclick="showName(this)">';
@@ -270,15 +273,11 @@ $("#myInput").on("keyup", function () {
 });
 
 $('input[type=radio][name=isInside]').change(function (e) {
-	//reloadTable();
-	e.preventDefault();
+	//	e.preventDefault();
 	if (this.value == 'inside') {
 		fillTable(drivers, this.value);
 	} else if (this.value == 'outside') {
-		//$("#tbl_drivers").load("/ #tbl_drivers");
-
 		fillTable(drivers, this.value);
-
 	} else {
 		fillTable(drivers, 'all');
 	}
