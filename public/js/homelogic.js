@@ -32,15 +32,15 @@ function pullDrivers(value) {
 				'color': 'black'
 			});
 			$("#User_len").text(" " + drivers.length);
-			
+
 			if (value == 'inside' && connection_status) {
 				fillTable(drivers, value);
 			} else if (value == 'outside' && connection_status) {
 				fillTable(drivers, value);
-			} else if(connection_status) {
+			} else if (connection_status) {
 				fillTable(drivers, 'all');
 			}
-			
+
 			//fillTable(drivers,status);
 			//console.log(drivers);
 		} else error("there is a problem to connect to database");
@@ -174,7 +174,10 @@ $(document).ready(function () {
 								console.log(err);
 							}
 						})
-					} else alert("Please fill the form correctly");
+					} else $.alert({
+						title: 'Error',
+						content: 'Error',
+					});
 				}
 			},
 			'Cancel': function () {
@@ -280,34 +283,60 @@ $("#myInput").on("keyup", function () {
 $('input[type=radio][name=isInside]').change(function (e) {
 	value = this.value;
 	if (!connection_status) {
-		ins_key = prompt("Please insert a secure key");
-		$.ajax({
-			url: db_url + api_key + ins_key,
-			type: "GET",
-			dataType: "html", //change it by the data type you get (XML...)
-			//context: document.body,
-			statusCode: {
-				404: function(){
-					console.log("connection error");
+		//ins_key = prompt("Please insert a secure key");
+		$.confirm({
+			title: '',
+			content: '' +
+				'<form action="" class="formName">' +
+				'<div class="form-group">' +
+				'<label>Please provide a secure key</label>' +
+				'<input type="text" placeholder="Insert a secure key" class="key form-control" required />' +
+				'</div>' +
+				'</form>',
+			buttons: {
+				formSubmit: {
+					text: 'Submit',
+					btnClass: 'btn-blue',
+					action: function () {
+						ins_key = this.$content.find('.key').val();
+						$.ajax({
+							url: db_url + api_key + ins_key,
+							type: "GET",
+							dataType: "html",
+							statusCode: {
+								404: function () {
+									console.log("connection error");
+								},
+								200: function () {
+									connection_status = true;
+								}
+							},
+							success: function () {
+								pullDrivers(value);
+							},
+							error: function (e) {
+								$.alert({
+									title: '',
+									content: '<br> Please provide the valid key',
+								});
+							}
+						});
+					}
 				},
-				200: function () {
-					connection_status=true;
-				}
+				cancel: function () {},
 			},
-			success:  function(){
-					pullDrivers(value);
-			},
-			error: function (e) {
-				alert("the inserted key is invalid");
+			onContentReady: function () {
+				var jc = this;
+				this.$content.find('form').on('submit', function (e) {
+					e.preventDefault();
+					jc.$$formSubmit.trigger('click');
+				});
 			}
 		});
-	}
-	else fillTable(drivers,value);
+
+
+	} else fillTable(drivers, value);
 });
-
-
-
-
 
 function reloadTable() {
 	//fillTable(drivers, 'all');
