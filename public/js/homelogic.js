@@ -6,14 +6,19 @@ var l_name_before;
 var p_num_before;
 var id_before;
 var permission_status_before;
+var ins_key; //inserted key by user
+var connection_status = false;
 
 var db_url = "https://api.mongolab.com/api/1/databases/cars/collections/drivers";
-var api_key = "?apiKey=_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
+var api_key = "?apiKey=";
+//_IUolN87EnEDzGqlWEQ6pA2fXkp-IZdA";
+
+
 // loading data from DB
-$(document).ready(function () {
+function pullDrivers(value) {
 	$.ajax({
 		//method: 'GET',
-		url: db_url + api_key,
+		url: db_url + api_key + ins_key,
 	}).done(function (data) {
 		//console.log(data);
 		if (data != null) {
@@ -27,22 +32,21 @@ $(document).ready(function () {
 				'color': 'black'
 			});
 			$("#User_len").text(" " + drivers.length);
-
+			
+			if (value == 'inside' && connection_status) {
+				fillTable(drivers, value);
+			} else if (value == 'outside' && connection_status) {
+				fillTable(drivers, value);
+			} else if(connection_status) {
+				fillTable(drivers, 'all');
+			}
+			
+			//fillTable(drivers,status);
 			//console.log(drivers);
 		} else error("there is a problem to connect to database");
-
 	});
+}
 
-});
-
-
-//show all drivers from DB in the table
-$("#btn_showAllDrivers").click(function () {
-	$(this).prop('disable', true);
-	if (drivers != null) {
-		fillTable(drivers);
-	}
-});
 
 
 $(document).ready(function () {
@@ -71,7 +75,7 @@ $(document).ready(function () {
 					}
 
 					$.ajax({
-						url: db_url + "/" + database_id + api_key,
+						url: db_url + "/" + database_id + api_key + ins_key,
 						data: JSON.stringify({
 							"first_name": before[0],
 							"last_name": before[1],
@@ -98,7 +102,7 @@ $(document).ready(function () {
 				var database_id = ($('#editDriver').data('id'));
 				$.ajax({
 
-					url: db_url + "/" + database_id + api_key,
+					url: db_url + "/" + database_id + api_key + ins_key,
 					async: true,
 					timeout: 300000,
 					type: "DELETE",
@@ -151,7 +155,7 @@ $(document).ready(function () {
 					var p_num = $('#plate_number').val();
 					if (first_name && last_name && id && p_num && id) {
 						$.ajax({
-							url: db_url + api_key,
+							url: db_url + api_key + ins_key,
 							data: JSON.stringify({
 								"first_name": first_name,
 								"last_name": last_name,
@@ -211,12 +215,12 @@ function fillTable(myArr, status) {
 
 function fillHTMLTable(arrayOfDrivers) {
 	//	$("#tbl_drivers").Datatable.ajax.reload();
-		$("#tbl_drivers tr").each(function () {
-			$(this).remove();
+	$("#tbl_drivers tr").each(function () {
+		$(this).remove();
 	})
 	var htmlCode = '';
 	$.each(arrayOfDrivers, function (key, value) {
-		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" data-parkingstatus="'+value.parking_status+'" onclick="showName(this)">';
+		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" data-parkingstatus="' + value.parking_status + '" onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';
 		htmlCode += '<td>' + value.id + '</td>';
@@ -235,11 +239,11 @@ function showName(tr) {
 	var p_num = $(tr).find('td:eq(3)').html();
 	var db_id = $(tr).attr("data-id");
 	var p_status = $(tr).attr("data-permission");
-	var park_status=$(tr).attr("data-parkingstatus");
-	showEditDialog(f_name, l_name, id, p_num, db_id, p_status,park_status);
+	var park_status = $(tr).attr("data-parkingstatus");
+	showEditDialog(f_name, l_name, id, p_num, db_id, p_status, park_status);
 }
 
-function showEditDialog(f_name, l_name, id, p_num, db_id, p_status,park_status) {
+function showEditDialog(f_name, l_name, id, p_num, db_id, p_status, park_status) {
 	editDriver.dialog('open');
 
 	var first_name = $("#f_name").val(f_name);
@@ -256,7 +260,7 @@ function showEditDialog(f_name, l_name, id, p_num, db_id, p_status,park_status) 
 	l_name_before = $("#l_name").data("lname").val();
 	p_num_before = $("#p_number").data("pNumber").val();
 	id_before = $("#driver_id").data("id").val();
-	$("#editDriver").data('parkingstatus',park_status);
+	$("#editDriver").data('parkingstatus', park_status);
 	permission_status_before = p_status;
 	//console.log($("#editDriver").data('status'));//works
 	var database_id = $("#editDriver").data("id", db_id);
@@ -274,15 +278,36 @@ $("#myInput").on("keyup", function () {
 });
 
 $('input[type=radio][name=isInside]').change(function (e) {
-	//	e.preventDefault();
-	if (this.value == 'inside') {
-		fillTable(drivers, this.value);
-	} else if (this.value == 'outside') {
-		fillTable(drivers, this.value);
-	} else {
-		fillTable(drivers, 'all');
+	value = this.value;
+	if (!connection_status) {
+		ins_key = prompt("Please insert a secure key");
+		$.ajax({
+			url: db_url + api_key + ins_key,
+			type: "GET",
+			dataType: "html", //change it by the data type you get (XML...)
+			//context: document.body,
+			statusCode: {
+				404: function(){
+					console.log("connection error");
+				},
+				200: function () {
+					connection_status=true;
+				}
+			},
+			success:  function(){
+					pullDrivers(value);
+			},
+			error: function (e) {
+				alert("the inserted key is invalid");
+			}
+		});
 	}
+	else fillTable(drivers,value);
 });
+
+
+
+
 
 function reloadTable() {
 	//fillTable(drivers, 'all');

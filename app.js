@@ -35,7 +35,9 @@ var app = function () {
   app.get('/', function (req, res) {
     res.render('index.html');
   });
-
+  app.get('/login',function(req,res){
+    res.render('login.html');
+  })
   app.get('/contacts', function (req, res) {
     res.render('contacts.html');
   });
