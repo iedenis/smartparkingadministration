@@ -140,7 +140,6 @@ $("#btn_addDriver").click(function () {
 	addDriver.dialog('open');
 })
 
-
 $(document).ready(function () {
 	addDriver.dialog({
 		title: "Add a new driver",
@@ -148,7 +147,6 @@ $(document).ready(function () {
 		modal: true,
 		buttons: {
 			'Add driver': function () {
-				{
 					var first_name = $('#first_name').val();
 					var last_name = $('#last_name').val();
 					var id = $('#id').val();
@@ -178,15 +176,13 @@ $(document).ready(function () {
 						title: 'Error',
 						content: 'Error',
 					});
-				}
 			},
 			'Cancel': function () {
 				addDriver.dialog('close');
 			}
 		}
 	})
-})
-
+});
 
 function removeFromTable(database_id) {
 	$("#tbl_drivers tr").each(function () {
@@ -281,65 +277,67 @@ $("#myInput").on("keyup", function () {
 });
 
 $('input[type=radio][name=isInside]').change(function (e) {
-	value = this.value;
+	//value = this.value;
 	if (!connection_status) {
 		//ins_key = prompt("Please insert a secure key");
-		$.confirm({
-			title: '',
-			content: '' +
-				'<form action="" class="formName">' +
-				'<div class="form-group">' +
-				'<label>Please provide a secure key</label>' +
-				'<input type="text" placeholder="Insert a secure key" class="key form-control" required />' +
-				'</div>' +
-				'</form>',
-			buttons: {
-				formSubmit: {
-					text: 'Submit',
-					btnClass: 'btn-blue',
-					action: function () {
-						ins_key = this.$content.find('.key').val();
-						$.ajax({
-							url: db_url + api_key + ins_key,
-							type: "GET",
-							dataType: "html",
-							statusCode: {
-								404: function () {
-									console.log("connection error");
-								},
-								200: function () {
-									connection_status = true;
-								}
-							},
-							success: function () {
-								pullDrivers(value);
-							},
-							error: function (e) {
-								$.alert({
-									title: '',
-									content: '<br> Please provide the valid key',
-								});
-							}
-						});
-					}
-				},
-				cancel: function () {},
-			},
-			onContentReady: function () {
-				var jc = this;
-				this.$content.find('form').on('submit', function (e) {
-					e.preventDefault();
-					jc.$$formSubmit.trigger('click');
-				});
-			}
-		});
-
-
-	} else fillTable(drivers, value);
+		confirmDialog(this.value);
+	} else fillTable(drivers, this.value);
 });
 
 function reloadTable() {
 	//fillTable(drivers, 'all');
 	$("#tbl_drivers").load("/ #tbl_drivers");
 
+}
+
+function confirmDialog(value) {
+	$.confirm({
+		title: '',
+		content: '' +
+			'<form action="" class="formName">' +
+			'<div class="form-group">' +
+			'<label>Please provide a secure key</label>' +
+			'<input type="text" placeholder="Insert a secure key" class="key form-control" required />' +
+			'</div>' +
+			'</form>',
+		buttons: {
+			formSubmit: {
+				text: 'Submit',
+				btnClass: 'btn-blue',
+				action: function () {
+					ins_key = this.$content.find('.key').val();
+					$.ajax({
+						url: db_url + api_key + ins_key,
+						type: "GET",
+						dataType: "html",
+						statusCode: {
+							404: function () {
+								console.log("connection error");
+							},
+							200: function () {
+								connection_status = true;
+							}
+						},
+						success: function () {
+							pullDrivers(value);
+						},
+						error: function (e) {
+							$.alert({
+								title: '',
+								content: '<br> Please provide the valid key',
+							});
+						}
+					});
+				}
+			},
+			cancel: function () {},
+		},
+		onContentReady: function () {
+			var jc = this;
+			this.$content.find('form').on('submit', function (e) {
+				e.preventDefault();
+				jc.$$formSubmit.trigger('click');
+			});
+		}
+	});
 }
