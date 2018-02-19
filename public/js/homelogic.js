@@ -125,7 +125,7 @@ $(document).ready(function () {
 //function will be called after the driver editing
 function editTable(arr, tr_id) {
 	var table_row;
-	$("#tbl_drivers tr").each(function (i) {
+	$("#tbl_drivers tr").each((i) => {
 		if (tr_id == $(this).attr("data-id"))
 			table_row = $(this);
 	})
@@ -147,35 +147,35 @@ $(document).ready(function () {
 		modal: true,
 		buttons: {
 			'Add driver': function () {
-					var first_name = $('#first_name').val();
-					var last_name = $('#last_name').val();
-					var id = $('#id').val();
-					var p_num = $('#plate_number').val();
-					if (first_name && last_name && id && p_num && id) {
-						$.ajax({
-							url: db_url + api_key + ins_key,
-							data: JSON.stringify({
-								"first_name": first_name,
-								"last_name": last_name,
-								"id": id,
-								"p_num": p_num,
-								"permission_status": "allowed",
-								"parking_status": "outside"
-							}),
-							type: "POST",
-							contentType: "application/json",
-							success: function (data) {
-								//Have to work on it//								
-								location.reload(true);
-							},
-							error: function (xhr, status, err) {
-								console.log(err);
-							}
-						})
-					} else $.alert({
-						title: 'Error',
-						content: 'Error',
-					});
+				var first_name = $('#first_name').val();
+				var last_name = $('#last_name').val();
+				var id = $('#id').val();
+				var p_num = $('#plate_number').val();
+				if (first_name && last_name && id && p_num && id) {
+					$.ajax({
+						url: db_url + api_key + ins_key,
+						data: JSON.stringify({
+							"first_name": first_name,
+							"last_name": last_name,
+							"id": id,
+							"p_num": p_num,
+							"permission_status": "allowed",
+							"parking_status": "outside"
+						}),
+						type: "POST",
+						contentType: "application/json",
+						success: function (data) {
+							//Have to work on it//								
+							location.reload(true);
+						},
+						error: function (xhr, status, err) {
+							console.log(err);
+						}
+					})
+				} else $.alert({
+					title: 'Error',
+					content: 'Error',
+				});
 			},
 			'Cancel': function () {
 				addDriver.dialog('close');
@@ -218,7 +218,7 @@ function fillHTMLTable(arrayOfDrivers) {
 		$(this).remove();
 	})
 	var htmlCode = '';
-	$.each(arrayOfDrivers,  (key, value)=> {
+	$.each(arrayOfDrivers, (key, value) => {
 		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" data-parkingstatus="' + value.parking_status + '" onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';
@@ -276,7 +276,7 @@ $("#myInput").on("keyup", function () {
 	});
 });
 
-$('input[type=radio][name=isInside]').change(function (e) {
+$('input[type=radio][name=isInside]').change(e => {
 	//value = this.value;
 	if (!connection_status) {
 		//ins_key = prompt("Please insert a secure key");
@@ -330,7 +330,7 @@ function confirmDialog(value) {
 					});
 				}
 			},
-			cancel: function () {},
+			cancel: function () { },
 		},
 		onContentReady: function () {
 			var jc = this;

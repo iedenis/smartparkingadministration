@@ -4,8 +4,8 @@ var app = function () {
   var express = require('express');
   var app = express();
   app.use(cors());
-  app.options('*',cors);
- 
+  app.options('*', cors);
+
   app.use(express.static(__dirname + '/public'));
 
 
@@ -14,22 +14,20 @@ var app = function () {
   app.engine('html', require('ejs').renderFile);
 
   //routing
-  app.get('/',  (req, res)=> {
-    res.render('index.html');
-  });
-  
-  app.get('/login',(req,res)=>
-    res.render('login.html')
-  )
-  app.get('/contacts', function (req, res) {
-    res.render('contacts.html');
-  });
-  app.get('/guide', function (req, res) {
-    res.render('guide.html');
-  });
-  app.get('/addnewdriver', function (req, res) {
-    res.render('addnewdriver.html');
-  });
+  app.get('/', (req, res) =>
+    res.render('index.html'));
+
+  //not in use
+  // app.get('/login',(req,res)=> 
+  //   res.render('login.html')
+  // )
+
+  app.get('/contacts', (req, res) =>
+    res.render('contacts.html'));
+  app.get('/guide', (req, res) =>
+    res.render('guide.html'));
+  app.get('/addnewdriver', (req, res) =>
+    res.render('addnewdriver.html'));
   return app;
 }();
 
