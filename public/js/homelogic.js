@@ -218,7 +218,7 @@ function fillHTMLTable(arrayOfDrivers) {
 		$(this).remove();
 	})
 	var htmlCode = '';
-	$.each(arrayOfDrivers, function (key, value) {
+	$.each(arrayOfDrivers,  (key, value)=> {
 		htmlCode += '<tr class="driver"  data-id="' + value._id.$oid + '" data-permission="' + value.permission_status + '" data-parkingstatus="' + value.parking_status + '" onclick="showName(this)">';
 		htmlCode += '<td>' + value.first_name + '</td>';
 		htmlCode += '<td>' + value.last_name + '</td>';

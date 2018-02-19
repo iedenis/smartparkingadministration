@@ -5,25 +5,7 @@ var app = function () {
   var app = express();
   app.use(cors());
   app.options('*',cors);
-  //connection to remote mongo database
-  /*var mongodb = require('mongodb').MongoClient;
-  var connectionUrl = 'mongodb://admin:admin@ds111258.mlab.com:11258/cars';
-  
-
-  mongodb.connect(connectionUrl, function (err, db) {
-    if (err) {
-      // console.log(err);
-      throw err;
-    } else {
-      var collection = db.collection('drivers');
-      collection.find({}).toArray(function (err, result) {
-        if (err) throw err;
-
-      });
-      db.close;
-    }
-  })
-  */
+ 
   app.use(express.static(__dirname + '/public'));
 
 
@@ -32,12 +14,13 @@ var app = function () {
   app.engine('html', require('ejs').renderFile);
 
   //routing
-  app.get('/', function (req, res) {
+  app.get('/',  (req, res)=> {
     res.render('index.html');
   });
-  app.get('/login',function(req,res){
-    res.render('login.html');
-  })
+  
+  app.get('/login',(req,res)=>
+    res.render('login.html')
+  )
   app.get('/contacts', function (req, res) {
     res.render('contacts.html');
   });
